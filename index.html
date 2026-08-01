@@ -7,12 +7,12 @@
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
+  <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Anime.js for smooth text transitions -->
+  <!-- Anime.js for text and transition animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
-  <!-- Typography matching Side Art Studios arcade & hand-drawn vibe -->
+  <!-- Google Fonts for Arcade & Studio Vibe -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,600;0,700;1,700&family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Righteous&display=swap" rel="stylesheet">
@@ -58,7 +58,7 @@
       overflow-x: hidden;
     }
 
-    /* Scanline & Subtle Glitch Overlay */
+    /* CRT Scanline Glitch Overlay */
     .crt-overlay::before {
       content: " ";
       display: block;
@@ -71,7 +71,7 @@
       opacity: 0.6;
     }
 
-    /* Haunted Teal Ambient Overlay */
+    /* Haunted Dark Vignette & Teal Glow Overlay */
     #hauntedGlow {
       position: fixed;
       top: 0;
@@ -80,12 +80,12 @@
       height: 100vh;
       pointer-events: none;
       z-index: 10;
-      background: radial-gradient(circle at 50% 50%, rgba(166, 249, 184, 0.22) 0%, rgba(72, 55, 108, 0) 70%);
+      background: radial-gradient(circle at 50% 50%, rgba(166, 249, 184, 0.18) 0%, rgba(8, 4, 16, 0.85) 75%);
       opacity: 0;
       transition: opacity 0.8s ease;
     }
 
-    /* Frost Glass Overlay for Lucius Profile */
+    /* Frost Glass styling for Lucius Card */
     .frost-glass {
       background: rgba(20, 28, 55, 0.75);
       backdrop-filter: blur(16px);
@@ -103,7 +103,7 @@
       pointer-events: none;
     }
 
-    /* Custom Angular Brand Buttons */
+    /* Angular Brand Button */
     .brand-btn {
       clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
       transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -112,22 +112,22 @@
       transform: translateY(-3px);
     }
 
-    /* 3D Page Flip Reader Styling */
+    /* 3D Comic Reader Flip Stage */
     .comic-flip-perspective {
       perspective: 1400px;
     }
     .comic-flip-card {
       transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
       transform-style: preserve-3d;
-      transform-origin: left center;
+      transform-origin: center center;
     }
     .comic-flip-card.flipping-next {
-      transform: rotateY(-90deg) scale(0.95);
-      opacity: 0.3;
+      transform: rotateY(-90deg) scale(0.92);
+      opacity: 0.2;
     }
     .comic-flip-card.flipping-prev {
-      transform: rotateY(90deg) scale(0.95);
-      opacity: 0.3;
+      transform: rotateY(90deg) scale(0.92);
+      opacity: 0.2;
     }
 
     /* Custom Scrollbar */
@@ -141,17 +141,47 @@
       background: #A6F9B8;
       border: 2px solid #130C22;
     }
+
+    /* Lucius Secret Lore Subtle Glitch Animation */
+    @keyframes luciusGlitch {
+      0%, 100% {
+        transform: translate(0);
+        filter: drop-shadow(0 0 5px rgba(255, 193, 122, 0.4));
+      }
+      20% {
+        transform: translate(-2px, 1px);
+        filter: drop-shadow(-2px 0 rgba(166, 249, 184, 0.6)) contrast(1.1);
+      }
+      40% {
+        transform: translate(1px, -1px);
+        filter: drop-shadow(2px 0 rgba(255, 193, 122, 0.6));
+      }
+      60% {
+        transform: translate(-1px, -1px);
+        filter: drop-shadow(-1px 0 rgba(138, 153, 191, 0.8));
+      }
+      80% {
+        transform: translate(2px, 0);
+        filter: drop-shadow(1px -1px rgba(255, 193, 122, 0.5));
+      }
+    }
+
+    .lucius-glitched {
+      animation: luciusGlitch 2.8s infinite ease-in-out;
+      border-color: #FFC17A !important;
+      box-shadow: 0 0 22px rgba(255, 193, 122, 0.4) !important;
+    }
   </style>
 </head>
 <body class="crt-overlay font-sans antialiased selection:bg-brand-neonTeal selection:text-brand-nightDeep min-h-screen flex flex-col justify-between relative">
 
-  <!-- Haunted Ambient Glow Element -->
+  <!-- Ambient Glow Overlay -->
   <div id="hauntedGlow"></div>
 
   <header class="sticky top-0 z-50 bg-brand-darkPurple/90 backdrop-blur border-b-4 border-brand-purple px-4 lg:px-8 py-3">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
       
-      <!-- Logo Branding -->
+      <!-- Studio Logo -->
       <a href="javascript:void(0)" onclick="switchView('home')" class="flex items-center gap-3 group">
         <div class="w-10 h-10 bg-brand-neonTeal border-2 border-brand-nightDeep flex items-center justify-center font-logo text-brand-nightDeep text-2xl font-bold shadow-pixel-btn group-hover:bg-brand-orange transition-colors">
           S
@@ -162,7 +192,7 @@
         </div>
       </a>
 
-      <!-- Quick Sub-Page Navigation Links -->
+      <!-- Sub-Page Navigation Links -->
       <nav class="flex items-center gap-2 sm:gap-4 font-tech text-xs">
         <button onclick="switchView('home')" class="text-brand-lightYellow hover:text-brand-neonTeal transition-colors font-bold px-2 py-1">
           MAIN COMIC
@@ -183,13 +213,12 @@
     </div>
   </header>
 
-  <!-- MAIN VIEW CONTAINER -->
   <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 relative z-20">
 
     <!-- PAGE 1: HOMEPAGE / MAIN COMIC -->
     <section id="page-home" class="view-section space-y-10">
       
-      <!-- Top Title & Narrative Summary -->
+      <!-- Title & Summary Header -->
       <div class="text-center space-y-6 pt-2">
         <div class="inline-block bg-brand-purple/60 border border-brand-neonTeal/50 px-4 py-1.5 font-tech text-xs text-brand-neonTeal uppercase tracking-widest rounded-full">
           ✨ ORIGINAL COMIC NARRATIVE
@@ -204,7 +233,7 @@
         </div>
       </div>
 
-      <!-- Interactive 3D Page Flip Comic Reader Container -->
+      <!-- Interactive 3D Drag-to-Flip Comic Reader -->
       <div id="comicViewer" class="space-y-4 pt-2">
         <div class="text-center font-tech text-xs text-brand-neonTeal tracking-widest flex items-center justify-center gap-2">
           <i data-lucide="arrow-down" class="w-4 h-4 animate-bounce"></i>
@@ -212,10 +241,10 @@
           <i data-lucide="arrow-down" class="w-4 h-4 animate-bounce"></i>
         </div>
 
-        <!-- Halved Height Interactive Reader Card -->
+        <!-- Halved Height Reader Frame -->
         <div class="bg-brand-purple/30 border-4 border-brand-desatBlue p-4 sm:p-6 rounded-lg space-y-4 shadow-2xl">
           
-          <!-- Reader Top Status Bar -->
+          <!-- Reader Header Bar -->
           <div class="flex items-center justify-between font-tech text-xs text-brand-orange border-b border-brand-desatBlue/30 pb-3 flex-wrap gap-2">
             <span class="flex items-center gap-2">
               <i data-lucide="book-open" class="w-4 h-4 text-brand-neonTeal"></i>
@@ -226,53 +255,36 @@
             </span>
           </div>
 
-          <!-- 3D Perspective Flip Stage -->
+          <!-- 3D Perspective Flip Stage with Drag Support -->
           <div id="comicFlipStage" class="comic-flip-perspective relative w-full h-[450px] sm:h-[550px] bg-brand-nightDeep rounded-lg overflow-hidden border-2 border-dashed border-brand-desatBlue/60 flex items-center justify-center cursor-grab select-none">
             
-            <div id="flipCard" class="comic-flip-card w-full h-full p-2 flex items-center justify-center pointer-events-none">
-              <img id="comicPageImg" src="https://static.wixstatic.com/media/84c44d_4acf42be4b8443e98832b35d02fa2c47~mv2.png" alt="Comic Page 1" class="max-w-full max-h-full object-contain rounded shadow-lg pointer-events-none" onerror="this.onerror=null; this.src='https://placehold.co/600x800/130C22/A6F9B8.png?text=Comic+Preview+Page+1';" />
+            <div id="flipCard" class="comic-flip-card w-full h-full p-2 flex items-center justify-center pointer-events-none select-none">
+              <img id="comicPageImg" src="comic-page-1.png" alt="Comic Page 1" draggable="false" class="max-w-full max-h-full object-contain rounded shadow-lg pointer-events-none select-none" onerror="this.onerror=null; this.src='https://placehold.co/600x800/130C22/A6F9B8.png?text=Comic+Preview+Page+1';" />
             </div>
 
-            <!-- Drag Instruction Badge Overlay -->
-            <div id="dragHint" class="absolute top-3 left-1/2 -translate-x-1/2 bg-brand-nightDeep/80 border border-brand-neonTeal/40 px-3 py-1 rounded-full font-tech text-[10px] text-brand-neonTeal pointer-events-none opacity-80 z-10 flex items-center gap-1.5 shadow-md">
-              <i data-lucide="move-horizontal" class="w-3.5 h-3.5"></i> DRAG HORIZONTALLY TO FLIP
+            <!-- Drag Instruction Badge -->
+            <div id="dragHint" class="absolute top-3 left-1/2 -translate-x-1/2 bg-brand-nightDeep/80 border border-brand-neonTeal/40 px-3 py-1 rounded-full font-tech text-[10px] text-brand-neonTeal pointer-events-none opacity-80 z-10 flex items-center gap-1.5 shadow-md select-none">
+              <i data-lucide="move-horizontal" class="w-3.5 h-3.5"></i> CLICK & DRAG HORIZONTALLY TO FLIP
             </div>
 
-            <!-- Side Overlay Touch/Click Zones -->
-            <button onclick="prevPage()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-brand-nightDeep/80 hover:bg-brand-purple border border-brand-neonTeal text-brand-neonTeal p-3 rounded-full shadow-lg transition-all z-20 focus:outline-none" title="Previous Page">
+            <!-- Only Two Side Overlay Buttons -->
+            <button onclick="prevPage()" class="absolute left-3 top-1/2 -translate-y-1/2 bg-brand-nightDeep/90 hover:bg-brand-purple border-2 border-brand-neonTeal text-brand-neonTeal p-3 rounded-full shadow-lg transition-all z-20 focus:outline-none hover:scale-110 active:scale-95" title="Previous Page">
               <i data-lucide="chevron-left" class="w-6 h-6"></i>
             </button>
-            <button onclick="nextPage()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-brand-nightDeep/80 hover:bg-brand-purple border border-brand-neonTeal text-brand-neonTeal p-3 rounded-full shadow-lg transition-all z-20 focus:outline-none" title="Next Page">
+            <button onclick="nextPage()" class="absolute right-3 top-1/2 -translate-y-1/2 bg-brand-nightDeep/90 hover:bg-brand-purple border-2 border-brand-neonTeal text-brand-neonTeal p-3 rounded-full shadow-lg transition-all z-20 focus:outline-none hover:scale-110 active:scale-95" title="Next Page">
               <i data-lucide="chevron-right" class="w-6 h-6"></i>
-            </button>
-          </div>
-
-          <!-- Reader Bottom Navigation & Page Indicators -->
-          <div class="flex items-center justify-between pt-2 font-tech text-xs flex-wrap gap-3">
-            <button onclick="prevPage()" class="brand-btn bg-brand-nightDeep border border-brand-desatBlue text-brand-lightYellow hover:text-brand-neonTeal px-4 py-2 flex items-center gap-2">
-              <i data-lucide="arrow-left" class="w-4 h-4"></i> PREV PAGE
-            </button>
-
-            <!-- Page Dots -->
-            <div id="pageDots" class="flex items-center gap-2 mx-auto">
-              <!-- Rendered via JS -->
-            </div>
-
-            <button onclick="nextPage()" class="brand-btn bg-brand-neonTeal text-brand-nightDeep font-bold px-4 py-2 flex items-center gap-2 hover:bg-brand-orange transition-colors">
-              NEXT PAGE <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </button>
           </div>
 
         </div>
       </div>
 
-      <!-- Homepage Action Buttons -->
+      <!-- Action Navigation Buttons -->
       <div class="pt-10 border-t-2 border-brand-purple text-center space-y-6">
         <h3 class="font-tech text-sm text-brand-neonTeal tracking-widest uppercase font-bold">
           Learn more about the characters:
         </h3>
 
-        <!-- Main Character Navigation Buttons -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
           <button onclick="switchView('persephone')" class="brand-btn bg-brand-neonTeal text-brand-nightDeep font-tech font-bold text-lg py-4 px-6 shadow-teal-glow flex items-center justify-center gap-3">
             <i data-lucide="user-check" class="w-6 h-6"></i>
@@ -285,7 +297,6 @@
           </button>
         </div>
 
-        <!-- Studio Sub-Page Button -->
         <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
           <button onclick="switchView('gallery')" class="brand-btn bg-brand-purple text-brand-lightYellow hover:bg-brand-neonTeal hover:text-brand-nightDeep border-2 border-brand-neonTeal font-tech text-sm py-3 px-6 shadow-teal-glow transition-all">
             Concept Gallery
@@ -301,7 +312,6 @@
     <!-- SUB-PAGE 1: "Who is Persephone?" -->
     <section id="page-persephone" class="view-section hidden space-y-8 pb-16">
       
-      <!-- Back Navigation Header -->
       <div class="flex items-center justify-between border-b-2 border-brand-neonTeal/40 pb-4">
         <button onclick="switchView('home')" class="font-tech text-xs text-brand-neonTeal hover:underline flex items-center gap-2">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> BACK TO COMIC
@@ -309,10 +319,10 @@
         <span class="font-tech text-xs text-brand-desatBlue">CHARACTER DOSSIER #01</span>
       </div>
 
-      <!-- Side-by-Side 2-Column Layout (Uniform Box Heights) -->
+      <!-- Uniform 2-Column Layout -->
       <div class="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch">
         
-        <!-- Left Column: Image Card -->
+        <!-- Left: Image Card -->
         <div class="md:col-span-5 lg:col-span-5 h-full flex flex-col">
           <div id="persephone-img-card" class="bg-brand-purple/40 border-4 border-brand-neonTeal p-4 rounded-lg shadow-teal-glow text-center relative overflow-hidden flex-1 flex flex-col justify-between">
             
@@ -321,8 +331,7 @@
             </div>
             
             <div class="mt-4 pt-1">
-              <!-- Clickable Name triggers secret lore -->
-              <div onclick="toggleLore('persephone')" class="font-logo text-2xl text-brand-lightYellow hover:text-brand-neonTeal cursor-pointer transition-colors select-none inline-block">
+              <div onclick="toggleLore('persephone')" class="font-logo text-2xl text-brand-lightYellow hover:text-brand-neonTeal cursor-pointer transition-colors select-none inline-block" title="Click name to toggle secret lore">
                 PERSEPHONE
               </div>
               <div class="font-tech text-xs text-brand-neonTeal uppercase tracking-wider mt-1">
@@ -332,10 +341,8 @@
           </div>
         </div>
 
-        <!-- Right Column: Narrative Text Details Container -->
+        <!-- Right: Text Container -->
         <div class="md:col-span-7 lg:col-span-7 h-full flex flex-col">
-
-          <!-- Main Dynamic Text Card -->
           <div id="persephone-text-box" class="bg-brand-purple/50 border-2 border-brand-neonTeal/40 p-6 sm:p-8 rounded-lg text-brand-lightYellow font-sans text-base leading-relaxed space-y-4 shadow-lg flex-1 flex flex-col justify-center transition-all duration-300">
             <p id="persephone-bio-p1">
               A 17-year-old fearless paranormal investigator who explores an abandoned mall. She is a logical person that knows how to piece things together. However, her flaws make it so she tends to obsess over finding clean answers, convinced that if she works hard enough, she will get what she’s looking for one way or another.
@@ -344,7 +351,6 @@
               In spite of all this, she has an overall lighthearted personality. Her strengths lie in her wits and quick-thinking that allow her to adapt to changes and think of solutions under pressure.
             </p>
           </div>
-
         </div>
 
       </div>
@@ -353,7 +359,6 @@
     <!-- SUB-PAGE 2: "Who is Lucius?" -->
     <section id="page-lucius" class="view-section hidden space-y-8 pb-16">
       
-      <!-- Back Navigation Header -->
       <div class="flex items-center justify-between border-b-2 border-brand-desatBlue/40 pb-4">
         <button onclick="switchView('home')" class="font-tech text-xs text-brand-desatBlue hover:underline flex items-center gap-2">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> <span id="lucius-back-text">BACK TO COMIC</span>
@@ -361,10 +366,10 @@
         <span class="font-tech text-xs text-brand-desatBlue">CHARACTER DOSSIER #02</span>
       </div>
 
-      <!-- Side-by-Side 2-Column Layout (Uniform Box Heights) -->
+      <!-- Uniform 2-Column Layout -->
       <div class="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch">
         
-        <!-- Left Column: Image Card -->
+        <!-- Left: Image Card -->
         <div class="md:col-span-5 lg:col-span-5 h-full flex flex-col">
           <div id="lucius-img-card" class="bg-brand-nightDeep/90 border-4 border-brand-desatBlue p-4 rounded-lg shadow-pixel-btn text-center relative overflow-hidden flex-1 flex flex-col justify-between">
             
@@ -373,8 +378,7 @@
             </div>
             
             <div class="mt-4 pt-1">
-              <!-- Clickable Name triggers secret lore -->
-              <div onclick="toggleLore('lucius')" class="font-logo text-2xl text-brand-desatBlue hover:text-brand-orange cursor-pointer transition-colors select-none inline-block">
+              <div onclick="toggleLore('lucius')" class="font-logo text-2xl text-brand-desatBlue hover:text-brand-orange cursor-pointer transition-colors select-none inline-block" title="Click name to toggle secret lore">
                 LUCIUS
               </div>
               <div class="font-tech text-xs text-brand-orange uppercase tracking-wider mt-1">
@@ -384,10 +388,8 @@
           </div>
         </div>
 
-        <!-- Right Column: Narrative Text Details Container -->
+        <!-- Right: Text Container with Frost Glass -->
         <div class="md:col-span-7 lg:col-span-7 h-full flex flex-col">
-
-          <!-- Main Dynamic Text Card with Frost Glass Overlay -->
           <div id="lucius-text-box" class="frost-glass p-6 sm:p-8 rounded-lg text-brand-lightYellow font-sans text-base leading-relaxed space-y-4 shadow-lg flex-1 flex flex-col justify-center transition-all duration-300">
             <p id="lucius-bio-p1">
               The trapped spirit of a 10-year-old child who went missing. He remains naive and playful as he was at the time of his death. He is currently confined to the space of an empty abandoned mall, growing more bitter and volatile as he tries and fails to make a friend to accompany him.
@@ -396,16 +398,14 @@
               Now, when the opportunity presents itself, he tries to keep anyone who walks by the mall trapped within so he won’t feel as alone. If they resist, he keeps them in control under the threat of his attacks and an environment he can bend at his will.
             </p>
           </div>
-
         </div>
 
       </div>
     </section>
 
-    <!-- SUB-PAGE 4: "Gallery" -->
+    <!-- SUB-PAGE 3: "Gallery" -->
     <section id="page-gallery" class="view-section hidden space-y-8 pb-16">
       
-      <!-- Header -->
       <div class="flex items-center justify-between border-b-2 border-brand-neonTeal/40 pb-4">
         <button onclick="switchView('home')" class="font-tech text-xs text-brand-neonTeal hover:underline flex items-center gap-2">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> BACK TO COMIC
@@ -416,8 +416,8 @@
       <!-- Gallery Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         
-        <!-- Gallery Item 1 -->
-        <div class="gallery-item bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all" onclick="openLightbox('Céntrico Mall Atrium', 'Environment Concept Art', 'Early environmental breakdown of the broken skylights and overgrown escalators.', 'gallery-item-1.png')">
+        <!-- Gallery Card 1 -->
+        <div class="gallery-item bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all hover:scale-[1.02]" onclick="openLightbox('Céntrico Mall Atrium', 'Environment Concept Art', 'Early environmental breakdown of the broken skylights and overgrown escalators.', 'gallery-item-1.png')">
           <div class="aspect-video bg-brand-nightDeep rounded overflow-hidden flex items-center justify-center border border-brand-desatBlue/40">
             <img src="gallery-item-1.png" alt="Environment Concept Art" class="w-full h-full object-cover rounded" onerror="this.onerror=null; this.src='https://placehold.co/600x400/130C22/A6F9B8.png?text=Environment+Concept+Art';" />
           </div>
@@ -426,8 +426,8 @@
           </div>
         </div>
 
-        <!-- Gallery Item 2 -->
-        <div class="gallery-item bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all" onclick="openLightbox('Worn Brass Compass', 'Prop & Artifact Design', 'Persephone\'s primary navigation tool passed down from her brother.', 'gallery-item-2.png')">
+        <!-- Gallery Card 2 -->
+        <div class="gallery-item bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all hover:scale-[1.02]" onclick="openLightbox('Worn Brass Compass', 'Prop & Artifact Design', 'Persephone\'s primary navigation tool passed down from her brother.', 'gallery-item-2.png')">
           <div class="aspect-video bg-brand-nightDeep rounded overflow-hidden flex items-center justify-center border border-brand-desatBlue/40">
             <img src="gallery-item-2.png" alt="Prop & Artifact Design" class="w-full h-full object-cover rounded" onerror="this.onerror=null; this.src='https://placehold.co/600x400/130C22/FFC17A.png?text=Prop+%26+Artifact+Design';" />
           </div>
@@ -436,8 +436,8 @@
           </div>
         </div>
 
-        <!-- Gallery Item 3 -->
-        <div class="gallery-item bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all" onclick="openLightbox('The Retro Neon Arcade', 'Environment Concept Art', 'Lucius\'s primary haunt featuring flickering CRT monitors and prize counters.', 'gallery-item-3.png')">
+        <!-- Gallery Card 3 -->
+        <div class="gallery-item bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all hover:scale-[1.02]" onclick="openLightbox('The Retro Neon Arcade', 'Environment Concept Art', 'Lucius\'s primary haunt featuring flickering CRT monitors and prize counters.', 'gallery-item-3.png')">
           <div class="aspect-video bg-brand-nightDeep rounded overflow-hidden flex items-center justify-center border border-brand-desatBlue/40">
             <img src="gallery-item-3.png" alt="Environment Concept Art" class="w-full h-full object-cover rounded" onerror="this.onerror=null; this.src='https://placehold.co/600x400/130C22/A6F9B8.png?text=Environment+Concept+Art';" />
           </div>
@@ -446,8 +446,8 @@
           </div>
         </div>
 
-        <!-- Gallery Item 4 -->
-        <div class="gallery-item bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all" onclick="openLightbox('Persephone Outfit Sheet', 'Character Concept Sheet', 'Turnaround study showing investigative gear, jacket patches, and radio harness.', 'gallery-item-4.png')">
+        <!-- Gallery Card 4 -->
+        <div class="gallery-item bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all hover:scale-[1.02]" onclick="openLightbox('Persephone Outfit Sheet', 'Character Concept Sheet', 'Turnaround study showing investigative gear, jacket patches, and radio harness.', 'gallery-item-4.png')">
           <div class="aspect-video bg-brand-nightDeep rounded overflow-hidden flex items-center justify-center border border-brand-desatBlue/40">
             <img src="gallery-item-4.png" alt="Character Concept Sheet" class="w-full h-full object-cover rounded" onerror="this.onerror=null; this.src='https://placehold.co/600x400/130C22/FFC17A.png?text=Character+Concept+Sheet';" />
           </div>
@@ -456,8 +456,8 @@
           </div>
         </div>
 
-        <!-- Gallery Item 5 -->
-        <div class="gallery-item bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all" onclick="openLightbox('Lucius Spectral FX Exploration', 'Spirit FX Concept', 'Poltergeist static aura and thermal drop color key studies.', 'gallery-item-5.png')">
+        <!-- Gallery Card 5 -->
+        <div class="gallery-item bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all hover:scale-[1.02]" onclick="openLightbox('Lucius Spectral FX Exploration', 'Spirit FX Concept', 'Poltergeist static aura and thermal drop color key studies.', 'gallery-item-5.png')">
           <div class="aspect-video bg-brand-nightDeep rounded overflow-hidden flex items-center justify-center border border-brand-desatBlue/40">
             <img src="gallery-item-5.png" alt="Spirit FX Concept" class="w-full h-full object-cover rounded" onerror="this.onerror=null; this.src='https://placehold.co/600x400/130C22/A6F9B8.png?text=Spirit+FX+Concept';" />
           </div>
@@ -466,8 +466,8 @@
           </div>
         </div>
 
-        <!-- Gallery Item 6 -->
-        <div class="gallery-item bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all" onclick="openLightbox('Mall Security Shutter System', 'Prop & Mechanics Design', 'Heavy motorized iron grilles bent by Lucius\'s telekinetic spikes.', 'gallery-item-6.png')">
+        <!-- Gallery Card 6 -->
+        <div class="gallery-item bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all hover:scale-[1.02]" onclick="openLightbox('Mall Security Shutter System', 'Prop & Mechanics Design', 'Heavy motorized iron grilles bent by Lucius\'s telekinetic spikes.', 'gallery-item-6.png')">
           <div class="aspect-video bg-brand-nightDeep rounded overflow-hidden flex items-center justify-center border border-brand-desatBlue/40">
             <img src="gallery-item-6.png" alt="Prop & Mechanics Design" class="w-full h-full object-cover rounded" onerror="this.onerror=null; this.src='https://placehold.co/600x400/130C22/8A99BF.png?text=Prop+%26+Mechanics+Design';" />
           </div>
@@ -479,9 +479,9 @@
       </div>
     </section>
 
-    <!-- Lightbox Modal -->
-    <div id="lightbox" class="fixed inset-0 bg-brand-nightDarker/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-      <div class="bg-brand-purple border-4 border-brand-neonTeal p-6 rounded-lg max-w-xl w-full space-y-4 shadow-teal-glow relative">
+    <!-- Gallery Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 bg-brand-nightDarker/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeLightbox()">
+      <div class="bg-brand-purple border-4 border-brand-neonTeal p-6 rounded-lg max-w-xl w-full space-y-4 shadow-teal-glow relative" onclick="event.stopPropagation()">
         <button onclick="closeLightbox()" class="absolute top-4 right-4 text-brand-lightYellow hover:text-brand-orange font-tech text-xl font-bold z-10">
           ✕
         </button>
@@ -496,10 +496,9 @@
       </div>
     </div>
 
-    <!-- SUB-PAGE 3: "About Side Art Studios" -->
+    <!-- SUB-PAGE 4: "About Side Art Studios" -->
     <section id="page-about" class="view-section hidden space-y-8 pb-16">
       
-      <!-- Back Header -->
       <div class="flex items-center justify-between border-b-2 border-brand-orange/40 pb-4">
         <button onclick="switchView('home')" class="font-tech text-xs text-brand-orange hover:underline flex items-center gap-2">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> BACK TO COMIC
@@ -509,21 +508,21 @@
 
       <div class="space-y-8 max-w-4xl mx-auto">
         
-        <!-- Studio Logo Image Container -->
+        <!-- Official Logo Banner Container -->
         <div class="bg-brand-purple/40 border-4 border-brand-orange p-6 sm:p-8 rounded-lg shadow-orange-glow text-center space-y-4">
           <div class="max-w-md mx-auto flex items-center justify-center p-2 bg-brand-nightDeep/90 rounded-lg border-2 border-brand-orange/50 overflow-hidden">
             <img src="image.png" alt="Side Art Studios Logo" class="w-full h-auto object-contain rounded" onerror="this.onerror=null; this.src='https://placehold.co/600x400/130C22/A6F9B8?text=SIDE+ART+STUDIOS';" />
           </div>
         </div>
 
-        <!-- Studio Information Content -->
+        <!-- Studio Description -->
         <div class="bg-brand-purple/50 border-2 border-brand-orange/40 p-6 sm:p-8 rounded-lg text-brand-lightYellow font-sans text-base sm:text-lg leading-relaxed shadow-lg">
           <p>
             Side Art Studios is operated by three newly-emerging creators who value stories made with passion and care. With our combined skills, we are able to work with 2D art, character design, environment design, prop design, illustrations, and 3D art. We exist to work alongside independent creators so we can provide a complete concept development pipeline at a fraction of the normal cost. In short, we take raw concepts and turn them into a marketable and professional fully-realized IP’s made with passion and high quality in mind, so audiences of all ages can enjoy good stories.
           </p>
         </div>
 
-        <!-- Studio Pipeline Capabilities Grid -->
+        <!-- Capabilities Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 font-tech text-xs text-center">
           <div class="bg-brand-purple/30 p-4 border border-brand-desatBlue/40 rounded">
             <i data-lucide="palette" class="w-6 h-6 text-brand-neonTeal mx-auto mb-2"></i>
@@ -566,7 +565,6 @@
     </div>
   </footer>
 
-  <!-- View Switching & Interactive Script -->
   <script>
     // Comic Preview Pages Configuration
     const comicPages = [
@@ -578,7 +576,51 @@
     ];
     let currentComicIndex = 0;
 
-    // ... existing loreData code ...
+    // Secret Lore Data
+    const loreData = {
+      persephone: {
+        revealed: false,
+        originalBio1: "A 17-year-old fearless paranormal investigator who explores an abandoned mall. She is a logical person that knows how to piece things together. However, her flaws make it so she tends to obsess over finding clean answers, convinced that if she works hard enough, she will get what she’s looking for one way or another.",
+        originalBio2: "In spite of all this, she has an overall lighthearted personality. Her strengths lie in her wits and quick-thinking that allow her to adapt to changes and think of solutions under pressure.",
+        secretText: "[to be added]"
+      },
+      lucius: {
+        revealed: false,
+        originalBio1: "The trapped spirit of a 10-year-old child who went missing. He remains naive and playful as he was at the time of his death. He is currently confined to the space of an empty abandoned mall, growing more bitter and volatile as he tries and fails to make a friend to accompany him.",
+        originalBio2: "Now, when the opportunity presents itself, he tries to keep anyone who walks by the mall trapped within so he won’t feel as alone. If they resist, he keeps them in control under the threat of his attacks and an environment he can bend at his will.",
+        secretText: "[to be added]"
+      }
+    };
+
+    function updateAmbientAtmosphere() {
+      const glow = document.getElementById('hauntedGlow');
+      if (!glow) return;
+
+      // Check if the user is currently viewing the main homepage
+      const isHomePage = !document.getElementById('page-home')?.classList.contains('hidden');
+
+      // Calculate progress-based darkness ONLY when on the main homepage
+      let comicDarkness = 0;
+      if (isHomePage) {
+        const progressRatio = currentComicIndex / (comicPages.length - 1);
+        comicDarkness = progressRatio * 0.85;
+      }
+
+      // Check character secret lore states on their respective sub-pages
+      const isPersephonePage = !document.getElementById('page-persephone')?.classList.contains('hidden');
+      const isLuciusPage = !document.getElementById('page-lucius')?.classList.contains('hidden');
+
+      let loreDarkness = 0;
+      if (isPersephonePage && loreData.persephone.revealed) {
+        loreDarkness = 0.7;
+      } else if (isLuciusPage && loreData.lucius.revealed) {
+        loreDarkness = 0.7;
+      }
+
+      // Apply ambient darkness level smoothly
+      const finalOpacity = Math.min(1, Math.max(comicDarkness, loreDarkness));
+      glow.style.opacity = finalOpacity.toFixed(2);
+    }
 
     function renderComicPage(direction = 'next') {
       const card = document.getElementById('flipCard');
@@ -606,10 +648,29 @@
           counter.innerText = `PAGE ${pageNum} OF ${comicPages.length}`;
         }
 
-        renderDots();
-
         card.classList.remove('flipping-next', 'flipping-prev');
+        
+        // Update ambient darkness as pages advance
+        updateAmbientAtmosphere();
       }, 300);
+    }
+
+    function nextPage() {
+      if (currentComicIndex < comicPages.length - 1) {
+        currentComicIndex++;
+      } else {
+        currentComicIndex = 0; // Wrap around to page 1
+      }
+      renderComicPage('next');
+    }
+
+    function prevPage() {
+      if (currentComicIndex > 0) {
+        currentComicIndex--;
+      } else {
+        currentComicIndex = comicPages.length - 1; // Wrap around to last page
+      }
+      renderComicPage('prev');
     }
 
     let isDragging = false;
@@ -621,9 +682,11 @@
       const card = document.getElementById('flipCard');
       if (!stage || !card) return;
 
+      // Disable native browser image drag behavior
+      stage.addEventListener('dragstart', (e) => e.preventDefault());
+
       const handleStart = (e) => {
-        // Prevent triggering on navigation buttons
-        if (e.target.closest('button')) return;
+        if (e.target.closest('button')) return; // Ignore clicks on overlay buttons
 
         isDragging = true;
         startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
@@ -638,10 +701,10 @@
         const currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
         currentDeltaX = currentX - startX;
 
-        // Tactile tilt & translation feedback while dragging
+        // Live 3D rotation feedback while dragging
         const stageWidth = stage.clientWidth || 600;
-        const rotation = Math.max(-30, Math.min(30, (currentDeltaX / stageWidth) * 50));
-        card.style.transform = `rotateY(${rotation}deg) translateX(${currentDeltaX * 0.25}px)`;
+        const rotation = Math.max(-35, Math.min(35, (currentDeltaX / stageWidth) * 60));
+        card.style.transform = `rotateY(${rotation}deg) translateX(${currentDeltaX * 0.2}px)`;
       };
 
       const handleEnd = () => {
@@ -650,15 +713,15 @@
         stage.classList.remove('cursor-grabbing');
         stage.classList.add('cursor-grab');
 
-        card.style.transition = ''; // Restore default smooth CSS transitions
+        card.style.transition = ''; // Restore smooth CSS animations
 
-        // Threshold of 40px drag distance to activate page flip
+        // Trigger bi-directional flip if threshold met (40px)
         if (currentDeltaX < -40) {
           nextPage();
         } else if (currentDeltaX > 40) {
           prevPage();
         } else {
-          // Snap back to resting position if drag threshold was not reached
+          // Snap back if threshold not met
           card.style.transform = '';
         }
         currentDeltaX = 0;
@@ -673,725 +736,113 @@
       window.addEventListener('touchend', handleEnd);
     }
 
-    function nextPage() {
-      if (currentComicIndex < comicPages.length - 1) {
-        currentComicIndex++;
-        renderComicPage('next');
-      } else {
-        currentComicIndex = 0; // Loop back to start
-        renderComicPage('next');
-      }
-    }
-
-    // ... existing prevPage, goToPage, renderDots, switchView, toggleLore, openLightbox, closeLightbox code ...
-
-    window.onload = function() {
-      renderDots();
-      initDragToFlip();
-      if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-      }
-    };
-  </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unfading Memories | Side Art Studios</title>
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Anime.js for smooth text transitions -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-
-  <!-- Typography matching Side Art Studios arcade & hand-drawn vibe -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,600;0,700;1,700&family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Righteous&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              darkPurple: '#48376C',
-              desatBlue: '#8A99BF',
-              purple: '#76438F',
-              neonTeal: '#A6F9B8',
-              orange: '#FFC17A',
-              lightYellow: '#FFFFCB',
-              nightDeep: '#130C22',
-              nightDarker: '#080410'
-            }
-          },
-          fontFamily: {
-            logo: ['"Righteous"', 'cursive'],
-            tech: ['"Chakra Petch"', 'sans-serif'],
-            pixel: ['"Press Start 2P"', 'monospace'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif']
-          },
-          boxShadow: {
-            'teal-glow': '0 0 25px rgba(166, 249, 184, 0.4)',
-            'orange-glow': '0 0 25px rgba(255, 193, 122, 0.4)',
-            'pixel-btn': '4px 4px 0px 0px #130C22'
-          }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    body {
-      background-color: #48376C;
-      color: #FFFFCB;
-      transition: background-color 0.8s ease;
-      overflow-x: hidden;
-    }
-
-    /* Scanline & Subtle Glitch Overlay */
-    .crt-overlay::before {
-      content: " ";
-      display: block;
-      position: fixed;
-      top: 0; left: 0; bottom: 0; right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.22) 50%), linear-gradient(90deg, rgba(166, 249, 184, 0.02), rgba(122, 153, 191, 0.01), rgba(255, 193, 122, 0.02));
-      z-index: 99;
-      background-size: 100% 3px, 6px 100%;
-      pointer-events: none;
-      opacity: 0.6;
-    }
-
-    /* Haunted Teal Ambient Overlay for Comic Scroll & Secrets */
-    #hauntedGlow {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 10;
-      background: radial-gradient(circle at 50% 50%, rgba(166, 249, 184, 0.22) 0%, rgba(72, 55, 108, 0) 70%);
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
-
-    /* Frost Glass Overlay for Lucius Profile */
-    .frost-glass {
-      background: rgba(20, 28, 55, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 2px solid rgba(138, 153, 191, 0.5);
-      box-shadow: 0 8px 32px 0 rgba(8, 4, 16, 0.7), inset 0 0 15px rgba(166, 249, 184, 0.15);
-      position: relative;
-    }
-
-    .frost-glass::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top right, rgba(255, 255, 253, 0.12), transparent 60%);
-      pointer-events: none;
-    }
-
-    /* Custom Angular Brand Buttons */
-    .brand-btn {
-      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-      transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .brand-btn:hover {
-      transform: translateY(-3px);
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #130C22;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #A6F9B8;
-      border: 2px solid #130C22;
-    }
-  </style>
-</head>
-<body class="crt-overlay font-sans antialiased selection:bg-brand-neonTeal selection:text-brand-nightDeep min-h-screen flex flex-col justify-between relative">
-
-  <!-- Haunted Ambient Glow Element -->
-  <div id="hauntedGlow"></div>
-
-  <header class="sticky top-0 z-50 bg-brand-darkPurple/90 backdrop-blur border-b-4 border-brand-purple px-4 lg:px-8 py-3">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
-      
-      <!-- Logo Branding -->
-      <a href="javascript:void(0)" onclick="switchView('home')" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 bg-brand-neonTeal border-2 border-brand-nightDeep flex items-center justify-center font-logo text-brand-nightDeep text-2xl font-bold shadow-pixel-btn group-hover:bg-brand-orange transition-colors">
-          S
-        </div>
-        <div>
-          <div class="font-logo text-xl text-brand-neonTeal tracking-wide leading-none">SIDE ART</div>
-          <div class="font-tech text-[10px] text-brand-desatBlue tracking-widest mt-1 uppercase font-bold">STUDIOS</div>
-        </div>
-      </a>
-
-      <!-- Quick Sub-Page Navigation Links -->
-      <nav class="flex items-center gap-2 sm:gap-4 font-tech text-xs">
-        <button onclick="switchView('home')" class="text-brand-lightYellow hover:text-brand-neonTeal transition-colors font-bold px-2 py-1">
-          MAIN COMIC
-        </button>
-        <button onclick="switchView('persephone')" class="text-brand-lightYellow hover:text-brand-neonTeal transition-colors font-bold px-2 py-1">
-          PERSEPHONE
-        </button>
-        <button onclick="switchView('lucius')" class="text-brand-lightYellow hover:text-brand-desatBlue transition-colors font-bold px-2 py-1">
-          LUCIUS
-        </button>
-        <button onclick="switchView('gallery')" class="text-brand-lightYellow hover:text-brand-orange transition-colors font-bold px-2 py-1">
-          GALLERY
-        </button>
-        <button onclick="switchView('about')" class="text-brand-orange hover:text-brand-neonTeal transition-colors font-bold px-2 py-1">
-          ABOUT STUDIO
-        </button>
-      </nav>
-    </div>
-  </header>
-
-  <!-- MAIN VIEW CONTAINER -->
-  <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 relative z-20">
-
-    <!-- PAGE 1: HOMEPAGE / MAIN COMIC -->
-    <section id="page-home" class="view-section space-y-12">
-      
-      <!-- Top Title & Narrative Summary -->
-      <div class="text-center space-y-6 pt-2">
-        <div class="inline-block bg-brand-purple/60 border border-brand-neonTeal/50 px-4 py-1.5 font-tech text-xs text-brand-neonTeal uppercase tracking-widest rounded-full">
-          ✨ ORIGINAL COMIC NARRATIVE
-        </div>
-
-        <h1 class="font-logo text-4xl sm:text-6xl text-brand-lightYellow tracking-wider uppercase drop-shadow-[0_4px_12px_rgba(166,249,184,0.3)]">
-          Unfading Memories
-        </h1>
-
-        <div class="max-w-3xl mx-auto bg-brand-purple/40 border-2 border-brand-desatBlue/40 p-6 sm:p-8 rounded-lg text-brand-lightYellow font-sans text-base sm:text-lg leading-relaxed shadow-lg">
-          Persephone, a fearless paranormal investigator, tries to find answers and a keepsake in an abandoned mall so she can have something to remember her missing brother by. Inside the mall, she finds Lucius, a volatile, child-like ghost who tries to keep her trapped so he can forcefully make a friend to be less alone.
-        </div>
-      </div>
-
-      <!-- Single Continuous Webcomic Reader Container -->
-      <div id="comicViewer" class="space-y-6 pt-4">
-        <div class="text-center font-tech text-xs text-brand-neonTeal tracking-widest flex items-center justify-center gap-2">
-          <i data-lucide="arrow-down" class="w-4 h-4 animate-bounce"></i>
-          SCROLL DOWN TO READ A COMIC PREVIEW
-          <i data-lucide="arrow-down" class="w-4 h-4 animate-bounce"></i>
-        </div>
-
-        <!-- Continuous Comic Canvas Strip -->
-        <div class="comic-page-card bg-brand-purple/30 border-4 border-brand-desatBlue p-4 sm:p-6 rounded-lg space-y-4 shadow-2xl">
-          <div class="flex items-center justify-between font-tech text-xs text-brand-orange border-b border-brand-desatBlue/30 pb-3">
-            <span>COMIC PREVIEW // CHAPTER 1 FULL STRIP</span>
-            <span class="text-brand-neonTeal font-bold">SIDE ART STUDIOS</span>
-          </div>
-          
-          <!-- Single Tall Image Placeholder -->
-          <div class="w-full min-h-[900px] sm:min-h-[1400px] bg-brand-nightDeep/90 border-2 border-dashed border-brand-desatBlue/60 rounded flex flex-col items-center justify-center text-center p-8">
-            <div class="w-20 h-20 bg-brand-purple/60 rounded-full flex items-center justify-center border-2 border-brand-neonTeal">
-              <i data-lucide="book-open" class="w-10 h-10 text-brand-neonTeal"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Homepage Action Buttons -->
-      <div class="pt-12 border-t-2 border-brand-purple text-center space-y-6">
-        <h3 class="font-tech text-sm text-brand-neonTeal tracking-widest uppercase font-bold">
-          Learn more about the characters:
-        </h3>
-
-        <!-- Main Character Navigation Buttons -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-          <button onclick="switchView('persephone')" class="brand-btn bg-brand-neonTeal text-brand-nightDeep font-tech font-bold text-lg py-4 px-6 shadow-teal-glow flex items-center justify-center gap-3">
-            <i data-lucide="user-check" class="w-6 h-6"></i>
-            Who is Persephone?
-          </button>
-
-          <button onclick="switchView('lucius')" class="brand-btn bg-brand-desatBlue text-brand-nightDeep font-tech font-bold text-lg py-4 px-6 shadow-pixel-btn hover:bg-brand-orange transition-colors flex items-center justify-center gap-3">
-            <i data-lucide="ghost" class="w-6 h-6"></i>
-            Who is Lucius?
-          </button>
-        </div>
-
-        <!-- Studio Sub-Page Button -->
-        <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
-          <button onclick="switchView('gallery')" class="brand-btn bg-brand-purple text-brand-lightYellow hover:bg-brand-neonTeal hover:text-brand-nightDeep border-2 border-brand-neonTeal font-tech text-sm py-3 px-6 shadow-teal-glow transition-all">
-            Concept Gallery
-          </button>
-          <button onclick="switchView('about')" class="brand-btn bg-brand-purple text-brand-lightYellow hover:bg-brand-orange hover:text-brand-nightDeep border-2 border-brand-orange font-tech text-sm py-3 px-6 shadow-orange-glow transition-all">
-            About Side Art Studios
-          </button>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- SUB-PAGE 1: "Who is Persephone?" -->
-    <section id="page-persephone" class="view-section hidden space-y-8 pb-16">
-      
-      <!-- Back Navigation Header -->
-      <div class="flex items-center justify-between border-b-2 border-brand-neonTeal/40 pb-4">
-        <button onclick="switchView('home')" class="font-tech text-xs text-brand-neonTeal hover:underline flex items-center gap-2">
-          <i data-lucide="arrow-left" class="w-4 h-4"></i> BACK TO COMIC
-        </button>
-        <span class="font-tech text-xs text-brand-desatBlue">CHARACTER DOSSIER #01</span>
-      </div>
-
-      <!-- Side-by-Side 2-Column Layout (Uniform Box Heights) -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch">
-        
-        <!-- Left Column: Image Card -->
-        <div class="md:col-span-5 lg:col-span-5 h-full flex flex-col">
-          <div id="persephone-img-card" class="bg-brand-purple/40 border-4 border-brand-neonTeal p-4 rounded-lg shadow-teal-glow text-center relative overflow-hidden flex-1 flex flex-col justify-between">
-            
-            <div class="flex-1 min-h-[260px] bg-brand-nightDeep border-2 border-dashed border-brand-neonTeal/60 rounded flex flex-col items-center justify-center p-6">
-              <i data-lucide="user" class="w-20 h-20 text-brand-neonTeal"></i>
-            </div>
-            
-            <div class="mt-4 pt-1">
-              <!-- Clickable Name triggers discreet Secret Lore -->
-              <div onclick="toggleLore('persephone')" class="font-logo text-2xl text-brand-lightYellow hover:text-brand-neonTeal cursor-pointer transition-colors select-none inline-block">
-                PERSEPHONE
-              </div>
-              <div class="font-tech text-xs text-brand-neonTeal uppercase tracking-wider mt-1">
-                17-YEAR-OLD PARANORMAL INVESTIGATOR
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Narrative Text Details Container -->
-        <div class="md:col-span-7 lg:col-span-7 h-full flex flex-col">
-
-          <!-- Main Dynamic Text Card -->
-          <div id="persephone-text-box" class="bg-brand-purple/50 border-2 border-brand-neonTeal/40 p-6 sm:p-8 rounded-lg text-brand-lightYellow font-sans text-base leading-relaxed space-y-4 shadow-lg flex-1 flex flex-col justify-center transition-all duration-300">
-            <p id="persephone-bio-p1">
-              A 17-year-old fearless paranormal investigator who explores an abandoned mall. She is a logical person that knows how to piece things together. However, her flaws make it so she tends to obsess over finding clean answers, convinced that if she works hard enough, she will get what she’s looking for one way or another.
-            </p>
-            <p id="persephone-bio-p2">
-              In spite of all this, she has an overall lighthearted personality. Her strengths lie in her wits and quick-thinking that allow her to adapt to changes and think of solutions under pressure.
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- SUB-PAGE 2: "Who is Lucius?" -->
-    <section id="page-lucius" class="view-section hidden space-y-8 pb-16">
-      
-      <!-- Back Navigation Header -->
-      <div class="flex items-center justify-between border-b-2 border-brand-desatBlue/40 pb-4">
-        <button onclick="switchView('home')" class="font-tech text-xs text-brand-desatBlue hover:underline flex items-center gap-2">
-          <i data-lucide="arrow-left" class="w-4 h-4"></i> <span id="lucius-back-text">BACK TO COMIC</span>
-        </button>
-        <span class="font-tech text-xs text-brand-desatBlue">CHARACTER DOSSIER #02</span>
-      </div>
-
-      <!-- Side-by-Side 2-Column Layout (Uniform Box Heights) -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch">
-        
-        <!-- Left Column: Image Card -->
-        <div class="md:col-span-5 lg:col-span-5 h-full flex flex-col">
-          <div id="lucius-img-card" class="bg-brand-nightDeep/90 border-4 border-brand-desatBlue p-4 rounded-lg shadow-pixel-btn text-center relative overflow-hidden flex-1 flex flex-col justify-between">
-            
-            <div class="flex-1 min-h-[260px] bg-brand-nightDarker border-2 border-dashed border-brand-desatBlue/60 rounded flex flex-col items-center justify-center p-6">
-              <i data-lucide="ghost" class="w-20 h-20 text-brand-desatBlue"></i>
-            </div>
-            
-            <div class="mt-4 pt-1">
-              <!-- Clickable Name triggers discreet Secret Lore -->
-              <div onclick="toggleLore('lucius')" class="font-logo text-2xl text-brand-desatBlue hover:text-brand-orange cursor-pointer transition-colors select-none inline-block">
-                LUCIUS
-              </div>
-              <div class="font-tech text-xs text-brand-orange uppercase tracking-wider mt-1">
-                TRAPPED SPIRIT OF A 10-YEAR-OLD
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Narrative Text Details Container -->
-        <div class="md:col-span-7 lg:col-span-7 h-full flex flex-col">
-
-          <!-- Main Dynamic Text Card with Frost Glass Overlay -->
-          <div id="lucius-text-box" class="frost-glass p-6 sm:p-8 rounded-lg text-brand-lightYellow font-sans text-base leading-relaxed space-y-4 shadow-lg flex-1 flex flex-col justify-center transition-all duration-300">
-            <p id="lucius-bio-p1">
-              The trapped spirit of a 10-year-old child who went missing. He remains naive and playful as he was at the time of his death. He is currently confined to the space of an empty abandoned mall, growing more bitter and volatile as he tries and fails to make a friend to accompany him.
-            </p>
-            <p id="lucius-bio-p2">
-              Now, when the opportunity presents itself, he tries to keep anyone who walks by the mall trapped within so he won’t feel as alone. If they resist, he keeps them in control under the threat of his attacks and an environment he can bend at his will.
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- SUB-PAGE 4: "Gallery" -->
-    <section id="page-gallery" class="view-section hidden space-y-8 pb-16">
-      
-      <!-- Header -->
-      <div class="flex items-center justify-between border-b-2 border-brand-neonTeal/40 pb-4">
-        <button onclick="switchView('home')" class="font-tech text-xs text-brand-neonTeal hover:underline flex items-center gap-2">
-          <i data-lucide="arrow-left" class="w-4 h-4"></i> BACK TO COMIC
-        </button>
-        <span class="font-tech text-xs text-brand-desatBlue">CONCEPT ART ARCHIVE</span>
-      </div>
-
-      <!-- Gallery Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        
-        <!-- Gallery Item 1 -->
-        <div class="gallery-item env bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all" onclick="openLightbox('Céntrico Mall Atrium', 'Environment Concept Art', 'Early environmental breakdown of the broken skylights and overgrown escalators.')">
-          <div class="aspect-video bg-brand-nightDeep rounded flex flex-col items-center justify-center text-brand-desatBlue p-4 border border-dashed border-brand-desatBlue/40">
-            <i data-lucide="image" class="w-10 h-10 text-brand-neonTeal"></i>
-          </div>
-          <div class="text-center">
-            <div class="font-tech text-xs text-brand-desatBlue font-bold">Environment Concept Art</div>
-          </div>
-        </div>
-
-        <!-- Gallery Item 2 -->
-        <div class="gallery-item props bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all" onclick="openLightbox('Worn Brass Compass', 'Prop & Artifact Design', 'Persephone\'s primary navigation tool passed down from her brother.')">
-          <div class="aspect-video bg-brand-nightDeep rounded flex flex-col items-center justify-center text-brand-desatBlue p-4 border border-dashed border-brand-desatBlue/40">
-            <i data-lucide="compass" class="w-10 h-10 text-brand-orange"></i>
-          </div>
-          <div class="text-center">
-            <div class="font-tech text-xs text-brand-desatBlue font-bold">Prop & Artifact Design</div>
-          </div>
-        </div>
-
-        <!-- Gallery Item 3 -->
-        <div class="gallery-item env bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all" onclick="openLightbox('The Retro Neon Arcade', 'Environment Concept Art', 'Lucius\'s primary haunt featuring flickering CRT monitors and prize counters.')">
-          <div class="aspect-video bg-brand-nightDeep rounded flex flex-col items-center justify-center text-brand-desatBlue p-4 border border-dashed border-brand-desatBlue/40">
-            <i data-lucide="gamepad-2" class="w-10 h-10 text-brand-neonTeal"></i>
-          </div>
-          <div class="text-center">
-            <div class="font-tech text-xs text-brand-desatBlue font-bold">Environment Concept Art</div>
-          </div>
-        </div>
-
-        <!-- Gallery Item 4 -->
-        <div class="gallery-item concept bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all" onclick="openLightbox('Persephone Outfit & Expression Sheet', 'Character Concept Sheet', 'Turnaround study showing investigative gear, jacket patches, and radio harness.')">
-          <div class="aspect-video bg-brand-nightDeep rounded flex flex-col items-center justify-center text-brand-desatBlue p-4 border border-dashed border-brand-desatBlue/40">
-            <i data-lucide="user" class="w-10 h-10 text-brand-orange"></i>
-          </div>
-          <div class="text-center">
-            <div class="font-tech text-xs text-brand-desatBlue font-bold">Character Concept Sheet</div>
-          </div>
-        </div>
-
-        <!-- Gallery Item 5 -->
-        <div class="gallery-item concept bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all" onclick="openLightbox('Lucius Spectral FX Exploration', 'Spirit FX Concept', 'Poltergeist static aura and thermal drop color key studies.')">
-          <div class="aspect-video bg-brand-nightDeep rounded flex flex-col items-center justify-center text-brand-desatBlue p-4 border border-dashed border-brand-desatBlue/40">
-            <i data-lucide="ghost" class="w-10 h-10 text-brand-neonTeal"></i>
-          </div>
-          <div class="text-center">
-            <div class="font-tech text-xs text-brand-desatBlue font-bold">Spirit FX Concept</div>
-          </div>
-        </div>
-
-        <!-- Gallery Item 6 -->
-        <div class="gallery-item props bg-brand-purple/40 border-2 border-brand-desatBlue/50 p-3 rounded-lg space-y-3 cursor-pointer hover:border-brand-neonTeal transition-all" onclick="openLightbox('Mall Security Shutter System', 'Prop & Mechanics Design', 'Heavy motorized iron grilles bent by Lucius\'s telekinetic spikes.')">
-          <div class="aspect-video bg-brand-nightDeep rounded flex flex-col items-center justify-center text-brand-desatBlue p-4 border border-dashed border-brand-desatBlue/40">
-            <i data-lucide="lock" class="w-10 h-10 text-brand-desatBlue"></i>
-          </div>
-          <div class="text-center">
-            <div class="font-tech text-xs text-brand-desatBlue font-bold">Prop & Mechanics Design</div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Lightbox Modal -->
-    <div id="lightbox" class="fixed inset-0 bg-brand-nightDarker/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-      <div class="bg-brand-purple border-4 border-brand-neonTeal p-6 rounded-lg max-w-xl w-full space-y-4 shadow-teal-glow relative">
-        <button onclick="closeLightbox()" class="absolute top-4 right-4 text-brand-lightYellow hover:text-brand-orange font-tech text-xl font-bold">
-          ✕
-        </button>
-        <div class="aspect-video bg-brand-nightDeep border-2 border-dashed border-brand-neonTeal/50 rounded flex flex-col items-center justify-center p-6 text-center">
-          <i data-lucide="image" class="w-16 h-16 text-brand-neonTeal mb-2"></i>
-          <span id="lb-placeholder" class="font-tech text-xs text-brand-neonTeal">[ ARTWORK PREVIEW ]</span>
-        </div>
-        <div>
-          <h3 id="lb-title" class="font-logo text-xl text-brand-lightYellow">Artwork Title</h3>
-          <div id="lb-category" class="font-tech text-xs text-brand-orange mt-1">Category</div>
-          <p id="lb-desc" class="font-sans text-xs text-brand-lightYellow/80 mt-2 leading-relaxed">Description...</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- SUB-PAGE 3: "About Side Art Studios" -->
-    <section id="page-about" class="view-section hidden space-y-8 pb-16">
-      
-      <!-- Back Header -->
-      <div class="flex items-center justify-between border-b-2 border-brand-orange/40 pb-4">
-        <button onclick="switchView('home')" class="font-tech text-xs text-brand-orange hover:underline flex items-center gap-2">
-          <i data-lucide="arrow-left" class="w-4 h-4"></i> BACK TO COMIC
-        </button>
-        <span class="font-tech text-xs text-brand-desatBlue">STUDIO PROFILE</span>
-      </div>
-
-      <div class="space-y-8 max-w-4xl mx-auto">
-        
-        <!-- Studio Logo Image Container -->
-        <div class="bg-brand-purple/40 border-4 border-brand-orange p-6 sm:p-8 rounded-lg shadow-orange-glow text-center space-y-4">
-          <div class="max-w-md mx-auto flex items-center justify-center p-2 bg-brand-nightDeep/90 rounded-lg border-2 border-brand-orange/50 overflow-hidden">
-            <img src="image.png" alt="Side Art Studios Logo" class="w-full h-auto object-contain rounded" onerror="this.onerror=null; this.src='https://placehold.co/600x400/130C22/A6F9B8?text=SIDE+ART+STUDIOS';" />
-          </div>
-        </div>
-
-        <!-- Studio Information Content -->
-        <div class="bg-brand-purple/50 border-2 border-brand-orange/40 p-6 sm:p-8 rounded-lg text-brand-lightYellow font-sans text-base sm:text-lg leading-relaxed shadow-lg">
-          <p>
-            Side Art Studios is operated by three newly-emerging creators who value stories made with passion and care. With our combined skills, we are able to work with 2D art, character design, environment design, prop design, illustrations, and 3D art. We exist to work alongside independent creators so we can provide a complete concept development pipeline at a fraction of the normal cost. In short, we take raw concepts and turn them into a marketable and professional fully-realized IP’s made with passion and high quality in mind, so audiences of all ages can enjoy good stories.
-          </p>
-        </div>
-
-        <!-- Studio Pipeline Capabilities Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 font-tech text-xs text-center">
-          <div class="bg-brand-purple/30 p-4 border border-brand-desatBlue/40 rounded">
-            <i data-lucide="palette" class="w-6 h-6 text-brand-neonTeal mx-auto mb-2"></i>
-            2D ART & ILLUSTRATION
-          </div>
-          <div class="bg-brand-purple/30 p-4 border border-brand-desatBlue/40 rounded">
-            <i data-lucide="user-check" class="w-6 h-6 text-brand-orange mx-auto mb-2"></i>
-            CHARACTER DESIGN
-          </div>
-          <div class="bg-brand-purple/30 p-4 border border-brand-desatBlue/40 rounded">
-            <i data-lucide="building" class="w-6 h-6 text-brand-lightYellow mx-auto mb-2"></i>
-            ENVIRONMENT DESIGN
-          </div>
-          <div class="bg-brand-purple/30 p-4 border border-brand-desatBlue/40 rounded">
-            <i data-lucide="box" class="w-6 h-6 text-brand-neonTeal mx-auto mb-2"></i>
-            PROP DESIGN
-          </div>
-          <div class="bg-brand-purple/30 p-4 border border-brand-desatBlue/40 rounded">
-            <i data-lucide="layers" class="w-6 h-6 text-brand-orange mx-auto mb-2"></i>
-            3D ART
-          </div>
-          <div class="bg-brand-purple/30 p-4 border border-brand-desatBlue/40 rounded">
-            <i data-lucide="rocket" class="w-6 h-6 text-brand-lightYellow mx-auto mb-2"></i>
-            FULL CONCEPT PIPELINE
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-brand-nightDeep border-t-2 border-brand-purple py-6 px-4 font-tech text-xs text-brand-desatBlue relative z-20">
-    <div class="max-w-6xl mx-auto text-center">
-      <div>
-        <div class="text-brand-neonTeal font-logo text-base">SIDE ART STUDIOS</div>
-        <div class="text-[10px] text-brand-desatBlue/70 mt-1">CONCEPT DEVELOPMENT & COMIC ARTWORK</div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- View Switching & Interactive Script -->
-  <script>
-    // Hidden Deep Lore Data for Secret Name Click Easter Egg
-    const loreData = {
-      persephone: {
-        state: 'standard',
-        standard: {
-          p1: 'A 17-year-old fearless paranormal investigator who explores an abandoned mall. She is a logical person that knows how to piece things together. However, her flaws make it so she tends to obsess over finding clean answers, convinced that if she works hard enough, she will get what she’s looking for one way or another.',
-          p2: 'In spite of all this, she has an overall lighthearted personality. Her strengths lie in her wits and quick-thinking that allow her to adapt to changes and think of solutions under pressure.'
-        },
-        deep: {
-          p1: '[to be added]',
-          p2: ''
-        }
-      },
-      lucius: {
-        state: 'standard',
-        standard: {
-          p1: 'The trapped spirit of a 10-year-old child who went missing. He remains naive and playful as he was at the time of his death. He is currently confined to the space of an empty abandoned mall, growing more bitter and volatile as he tries and fails to make a friend to accompany him.',
-          p2: 'Now, when the opportunity presents itself, he tries to keep anyone who walks by the mall trapped within so he won’t feel as alone. If they resist, he keeps them in control under the threat of his attacks and an environment he can bend at his will.'
-        },
-        deep: {
-          p1: '[to be added]',
-          p2: ''
-        }
-      }
-    };
-
-    // View Switching Logic (Main Comic, Persephone, Lucius, Gallery, About)
-    function switchView(viewName) {
+    function switchView(viewId) {
       const sections = document.querySelectorAll('.view-section');
       sections.forEach(sec => sec.classList.add('hidden'));
 
-      const activeSection = document.getElementById(`page-${viewName}`);
-      if (activeSection) {
-        activeSection.classList.remove('hidden');
+      const target = document.getElementById(`page-${viewId}`);
+      if (target) {
+        target.classList.remove('hidden');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      // Adjust Background Mood based on Sub-Page & Unlocked Status
-      const body = document.body;
-      const glow = document.getElementById('hauntedGlow');
+      // Sync ambient atmosphere & Lucius lore state UI
+      updateAmbientAtmosphere();
+      updateLuciusLoreUI();
 
-      if (viewName === 'lucius') {
-        const isUnlocked = loreData.lucius.state === 'deep';
-        body.style.backgroundColor = isUnlocked ? '#070a18' : '#141C37';
-        glow.style.opacity = isUnlocked ? '0.7' : '0.3';
-      } else if (viewName === 'persephone') {
-        const isUnlocked = loreData.persephone.state === 'deep';
-        body.style.backgroundColor = isUnlocked ? '#170c2a' : '#382B57';
-        glow.style.opacity = isUnlocked ? '0.7' : '0.4';
-      } else if (viewName === 'gallery') {
-        body.style.backgroundColor = '#2D204A';
-        glow.style.opacity = '0.2';
-      } else if (viewName === 'about') {
-        body.style.backgroundColor = '#48376C';
-        glow.style.opacity = '0';
-      } else {
-        body.style.backgroundColor = '#48376C';
-        glow.style.opacity = '0';
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
       }
     }
 
-    // Toggle Secret Lore (Triggered by clicking character name)
-    function toggleLore(char) {
-      const data = loreData[char];
+    function updateLuciusLoreUI() {
+      const isRevealed = loreData.lucius.revealed;
+      const backText = document.getElementById('lucius-back-text');
+      const imgCard = document.getElementById('lucius-img-card');
+      const textBox = document.getElementById('lucius-text-box');
+
+      if (backText) {
+        backText.innerText = isRevealed ? "don't leave" : "BACK TO COMIC";
+      }
+
+      if (imgCard && textBox) {
+        if (isRevealed) {
+          imgCard.classList.add('lucius-glitched');
+          textBox.classList.add('lucius-glitched');
+        } else {
+          imgCard.classList.remove('lucius-glitched');
+          textBox.classList.remove('lucius-glitched');
+        }
+      }
+    }
+
+    function toggleLore(character) {
+      const data = loreData[character];
       if (!data) return;
 
-      // Toggle state
-      data.state = data.state === 'standard' ? 'deep' : 'standard';
-      const current = data[data.state];
+      const p1 = document.getElementById(`${character}-bio-p1`);
+      const p2 = document.getElementById(`${character}-bio-p2`);
 
-      const p1 = document.getElementById(`${char}-bio-p1`);
-      const p2 = document.getElementById(`${char}-bio-p2`);
-      const textBox = document.getElementById(`${char}-text-box`);
+      data.revealed = !data.revealed;
 
-      // Darken background color & intensify ambient glow when secret info is revealed
-      const body = document.body;
-      const glow = document.getElementById('hauntedGlow');
-
-      if (data.state === 'deep') {
-        if (char === 'persephone') {
-          body.style.backgroundColor = '#170c2a'; // Deep ambient purple
-          if (glow) glow.style.opacity = '0.7';
-        } else if (char === 'lucius') {
-          body.style.backgroundColor = '#070a18'; // Eerie dark blue-black
-          if (glow) glow.style.opacity = '0.7';
-        }
+      if (data.revealed) {
+        if (p1) p1.innerText = data.secretText;
+        if (p2) p2.innerText = "";
       } else {
-        if (char === 'persephone') {
-          body.style.backgroundColor = '#382B57';
-          if (glow) glow.style.opacity = '0.4';
-        } else if (char === 'lucius') {
-          body.style.backgroundColor = '#141C37';
-          if (glow) glow.style.opacity = '0.3';
-        }
+        if (p1) p1.innerText = data.originalBio1;
+        if (p2) p2.innerText = data.originalBio2;
       }
 
-      if (typeof anime !== 'undefined' && textBox) {
+      // Sync Lucius profile lore UI state
+      if (character === 'lucius') {
+        updateLuciusLoreUI();
+      }
+
+      // Sync ambient atmosphere
+      updateAmbientAtmosphere();
+
+      // Anime.js fade-in pulse effect on text box
+      const box = document.getElementById(`${character}-text-box`);
+      if (box && typeof anime !== 'undefined') {
         anime({
-          targets: textBox,
-          opacity: [1, 0, 1],
-          duration: 400,
-          easing: 'easeInOutQuad',
-          update: function(anim) {
-            if (anim.progress > 50 && p1.innerText !== current.p1) {
-              p1.innerText = current.p1;
-              p2.innerText = current.p2;
-
-              // Subtle text update for Lucius back link when secret is unlocked
-              if (char === 'lucius') {
-                const backText = document.getElementById('lucius-back-text');
-                if (backText) {
-                  backText.innerText = data.state === 'deep' ? "don't leave" : "BACK TO COMIC";
-                }
-              }
-
-              if (typeof lucide !== 'undefined') lucide.createIcons();
-            }
-          }
+          targets: box,
+          opacity: [0.3, 1],
+          duration: 600,
+          easing: 'easeOutQuad'
         });
-      } else {
-        p1.innerText = current.p1;
-        p2.innerText = current.p2;
-
-        if (char === 'lucius') {
-          const backText = document.getElementById('lucius-back-text');
-          if (backText) {
-            backText.innerText = data.state === 'deep' ? "don't leave" : "BACK TO COMIC";
-          }
-        }
-
-        if (typeof lucide !== 'undefined') lucide.createIcons();
       }
     }
 
-    // Gallery Filter Tabs Functionality
-    function filterGallery(cat) {
-      const items = document.querySelectorAll('.gallery-item');
-      items.forEach(item => {
-        if (cat === 'all' || item.classList.contains(cat)) {
-          item.classList.remove('hidden');
-        } else {
-          item.classList.add('hidden');
-        }
-      });
-    }
+    function openLightbox(title, category, desc, imgSrc) {
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lb-image');
+      const titleEl = document.getElementById('lb-title');
+      const catEl = document.getElementById('lb-category');
+      const descEl = document.getElementById('lb-desc');
 
-    // Lightbox Modal Controls
-    function openLightbox(title, category, desc) {
-      const modal = document.getElementById('lightbox');
-      document.getElementById('lb-title').innerText = title;
-      document.getElementById('lb-category').innerText = category;
-      document.getElementById('lb-desc').innerText = desc;
-      document.getElementById('lb-placeholder').innerText = `[ ${title.toUpperCase()} ]`;
-      modal.classList.remove('hidden');
+      if (!lb) return;
+
+      if (img) {
+        img.src = imgSrc;
+        img.onerror = () => {
+          img.onerror = null;
+          img.src = 'https://placehold.co/600x400/130C22/A6F9B8.png?text=Artwork+Preview';
+        };
+      }
+      if (titleEl) titleEl.innerText = title;
+      if (catEl) catEl.innerText = category;
+      if (descEl) descEl.innerText = desc;
+
+      lb.classList.remove('hidden');
     }
 
     function closeLightbox() {
-      document.getElementById('lightbox').classList.add('hidden');
+      const lb = document.getElementById('lightbox');
+      if (lb) lb.classList.add('hidden');
     }
 
-    // Scroll Effect: Background turns darker with teal glow as comic is scrolled
-    window.addEventListener('scroll', () => {
-      const homePage = document.getElementById('page-home');
-      if (homePage.classList.contains('hidden')) return;
-
-      const scrollY = window.scrollY;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollRatio = Math.min(1, Math.max(0, scrollY / (maxScroll || 1)));
-
-      const glow = document.getElementById('hauntedGlow');
-      const body = document.body;
-
-      if (scrollRatio > 0.15) {
-        body.style.backgroundColor = `rgb(${Math.round(72 - scrollRatio * 50)}, ${Math.round(55 - scrollRatio * 40)}, ${Math.round(108 - scrollRatio * 70)})`;
-        glow.style.opacity = (scrollRatio * 0.75).toString();
-      } else {
-        body.style.backgroundColor = '#48376C';
-        glow.style.opacity = '0';
-      }
-    });
-
-    // Initialize Lucide Icons on load
     window.onload = function() {
+      initDragToFlip();
       if (typeof lucide !== 'undefined') {
         lucide.createIcons();
       }
