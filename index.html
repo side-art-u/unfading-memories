@@ -112,22 +112,24 @@
       transform: translateY(-3px);
     }
 
-    /* 3D Comic Reader Flip Stage */
+    /* 3D Comic Reader Flip Stage (Optimized for 60fps GPU acceleration) */
     .comic-flip-perspective {
       perspective: 1400px;
     }
     .comic-flip-card {
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease;
       transform-style: preserve-3d;
       transform-origin: center center;
+      will-change: transform, opacity; /* Forces GPU hardware acceleration to eliminate lag */
+      backface-visibility: hidden;
     }
     .comic-flip-card.flipping-next {
-      transform: rotateY(-90deg) scale(0.92);
-      opacity: 0.2;
+      transform: rotateY(-90deg) scale(0.95);
+      opacity: 0.1;
     }
     .comic-flip-card.flipping-prev {
-      transform: rotateY(90deg) scale(0.92);
-      opacity: 0.2;
+      transform: rotateY(90deg) scale(0.95);
+      opacity: 0.1;
     }
 
     /* Custom Scrollbar */
@@ -248,26 +250,21 @@
           <div class="flex items-center justify-between font-tech text-xs text-brand-orange border-b border-brand-desatBlue/30 pb-3 flex-wrap gap-2">
             <span class="flex items-center gap-2">
               <i data-lucide="book-open" class="w-4 h-4 text-brand-neonTeal"></i>
-              COMIC PREVIEW // CHAPTER 1
+              COMIC PREVIEW // THE CLIMAX
             </span>
             <span id="pageCounter" class="bg-brand-nightDeep px-3 py-1 rounded border border-brand-neonTeal/50 text-brand-neonTeal font-bold">
               PAGE 1 OF 5
             </span>
           </div>
 
-          <!-- 3D Perspective Flip Stage with Drag Support -->
+          <!-- 3D Perspective Flip Stage -->
           <div id="comicFlipStage" class="comic-flip-perspective relative w-full h-[450px] sm:h-[550px] bg-brand-nightDeep rounded-lg overflow-hidden border-2 border-dashed border-brand-desatBlue/60 flex items-center justify-center cursor-grab select-none">
             
             <div id="flipCard" class="comic-flip-card w-full h-full p-2 flex items-center justify-center pointer-events-none select-none">
-              <img id="comicPageImg" src="comic-page-1.png" alt="Comic Page 1" draggable="false" class="max-w-full max-h-full object-contain rounded shadow-lg pointer-events-none select-none" onerror="this.onerror=null; this.src='https://placehold.co/600x800/130C22/A6F9B8.png?text=Comic+Preview+Page+1';" />
+              <img id="comicPageImg" src="https://placehold.co/600x800/130C22/A6F9B8.png?text=Unfading+Memories+Page+1" alt="Comic Page 1" draggable="false" class="max-w-full max-h-full object-contain rounded shadow-lg pointer-events-none select-none" onerror="this.onerror=null; this.src='https://placehold.co/600x800/130C22/A6F9B8.png?text=Comic+Preview+Page+1';" />
             </div>
 
-            <!-- Drag Instruction Badge -->
-            <div id="dragHint" class="absolute top-3 left-1/2 -translate-x-1/2 bg-brand-nightDeep/80 border border-brand-neonTeal/40 px-3 py-1 rounded-full font-tech text-[10px] text-brand-neonTeal pointer-events-none opacity-80 z-10 flex items-center gap-1.5 shadow-md select-none">
-              <i data-lucide="move-horizontal" class="w-3.5 h-3.5"></i> CLICK & DRAG HORIZONTALLY TO FLIP
-            </div>
-
-            <!-- Only Two Side Overlay Buttons -->
+            <!-- Side Overlay Buttons -->
             <button onclick="prevPage()" class="absolute left-3 top-1/2 -translate-y-1/2 bg-brand-nightDeep/90 hover:bg-brand-purple border-2 border-brand-neonTeal text-brand-neonTeal p-3 rounded-full shadow-lg transition-all z-20 focus:outline-none hover:scale-110 active:scale-95" title="Previous Page">
               <i data-lucide="chevron-left" class="w-6 h-6"></i>
             </button>
@@ -566,176 +563,253 @@
   </footer>
 
   <script>
-    // Comic Preview Pages Configuration
-    const comicPages = [
-      'comic-page-1.png',
-      'comic-page-2.png',
-      'comic-page-3.png',
-      'comic-page-4.png',
-      'comic-page-5.png'
-    ];
-    let currentComicIndex = 0;
+    // =========================================================================
+    // 1. COMIC READER & PRELOADER MODULE (Zero-Lag Flip Engine)
+    // =========================================================================
+    const ComicReader = {
+      pages: [
+        'https://placehold.co/600x800/130C22/A6F9B8.png?text=Unfading+Memories+Page+1',
+        'https://placehold.co/600x800/130C22/FFC17A.png?text=Unfading+Memories+Page+2',
+        'https://placehold.co/600x800/130C22/8A99BF.png?text=Unfading+Memories+Page+3',
+        'https://placehold.co/600x800/130C22/A6F9B8.jpeg?text=Unfading+Memories+Page+4',
+        'https://placehold.co/600x800/130C22/FFC17A.jpeg?text=Unfading+Memories+Page+5'
+      ],
+      currentIndex: 0,
+      preloadedCache: [],
+      isTransitioning: false,
 
-    // Secret Lore Data
-    const loreData = {
-      persephone: {
-        revealed: false,
-        originalBio1: "A 17-year-old fearless paranormal investigator who explores an abandoned mall. She is a logical person that knows how to piece things together. However, her flaws make it so she tends to obsess over finding clean answers, convinced that if she works hard enough, she will get what she’s looking for one way or another.",
-        originalBio2: "In spite of all this, she has an overall lighthearted personality. Her strengths lie in her wits and quick-thinking that allow her to adapt to changes and think of solutions under pressure.",
-        secretText: "[to be added]"
+      // Preloads all images into memory on startup so page flips are instant with zero network/render lag
+      preloadAllPages() {
+        this.pages.forEach((src) => {
+          const img = new Image();
+          img.src = src;
+          this.preloadedCache.push(img);
+        });
       },
-      lucius: {
-        revealed: false,
-        originalBio1: "The trapped spirit of a 10-year-old child who went missing. He remains naive and playful as he was at the time of his death. He is currently confined to the space of an empty abandoned mall, growing more bitter and volatile as he tries and fails to make a friend to accompany him.",
-        originalBio2: "Now, when the opportunity presents itself, he tries to keep anyone who walks by the mall trapped within so he won’t feel as alone. If they resist, he keeps them in control under the threat of his attacks and an environment he can bend at his will.",
-        secretText: "[to be added]"
+
+      renderPage(direction = 'next') {
+        if (this.isTransitioning) return;
+        this.isTransitioning = true;
+
+        const card = document.getElementById('flipCard');
+        const img = document.getElementById('comicPageImg');
+        const counter = document.getElementById('pageCounter');
+
+        if (!card || !img) {
+          this.isTransitioning = false;
+          return;
+        }
+
+        // Reset any inline drag transforms
+        card.style.transform = '';
+
+        const flipClass = direction === 'next' ? 'flipping-next' : 'flipping-prev';
+        card.classList.add(flipClass);
+
+        // Fast 180ms swap timed perfectly with 3D rotation midpoint
+        setTimeout(() => {
+          const pageNum = this.currentIndex + 1;
+          const src = this.pages[this.currentIndex];
+
+          img.src = src;
+          img.onerror = () => {
+            img.onerror = null;
+            img.src = `https://placehold.co/600x800/130C22/A6F9B8.png?text=Comic+Preview+Page+${pageNum}`;
+          };
+
+          if (counter) {
+            counter.innerText = `PAGE ${pageNum} OF ${this.pages.length}`;
+          }
+
+          card.classList.remove('flipping-next', 'flipping-prev');
+          AtmosphereController.update();
+
+          // Unlock transition lock after animation completes
+          setTimeout(() => {
+            this.isTransitioning = false;
+          }, 150);
+        }, 180);
+      },
+
+      next() {
+        this.currentIndex = (this.currentIndex + 1) % this.pages.length;
+        this.renderPage('next');
+      },
+
+      prev() {
+        this.currentIndex = (this.currentIndex - 1 + this.pages.length) % this.pages.length;
+        this.renderPage('prev');
+      },
+
+      // Interactive 3D Touch/Mouse Drag Handler
+      initDrag() {
+        const stage = document.getElementById('comicFlipStage');
+        const card = document.getElementById('flipCard');
+        if (!stage || !card) return;
+
+        let isDragging = false;
+        let startX = 0;
+        let currentDeltaX = 0;
+
+        stage.addEventListener('dragstart', (e) => e.preventDefault());
+
+        const handleStart = (e) => {
+          if (e.target.closest('button') || this.isTransitioning) return;
+
+          isDragging = true;
+          startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+          currentDeltaX = 0;
+          stage.classList.remove('cursor-grab');
+          stage.classList.add('cursor-grabbing');
+          card.style.transition = 'none';
+        };
+
+        const handleMove = (e) => {
+          if (!isDragging) return;
+          const currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+          currentDeltaX = currentX - startX;
+
+          const stageWidth = stage.clientWidth || 600;
+          const rotation = Math.max(-35, Math.min(35, (currentDeltaX / stageWidth) * 60));
+          card.style.transform = `rotateY(${rotation}deg) translateX(${currentDeltaX * 0.2}px)`;
+        };
+
+        const handleEnd = () => {
+          if (!isDragging) return;
+          isDragging = false;
+          stage.classList.remove('cursor-grabbing');
+          stage.classList.add('cursor-grab');
+
+          card.style.transition = '';
+
+          if (currentDeltaX < -40) {
+            this.next();
+          } else if (currentDeltaX > 40) {
+            this.prev();
+          } else {
+            card.style.transform = '';
+          }
+          currentDeltaX = 0;
+        };
+
+        stage.addEventListener('mousedown', handleStart);
+        window.addEventListener('mousemove', handleMove);
+        window.addEventListener('mouseup', handleEnd);
+
+        stage.addEventListener('touchstart', handleStart, { passive: true });
+        window.addEventListener('touchmove', handleMove, { passive: true });
+        window.addEventListener('touchend', handleEnd);
       }
     };
 
-    function updateAmbientAtmosphere() {
-      const glow = document.getElementById('hauntedGlow');
-      if (!glow) return;
-
-      // Check if the user is currently viewing the main homepage
-      const isHomePage = !document.getElementById('page-home')?.classList.contains('hidden');
-
-      // Calculate progress-based darkness ONLY when on the main homepage
-      let comicDarkness = 0;
-      if (isHomePage) {
-        const progressRatio = currentComicIndex / (comicPages.length - 1);
-        comicDarkness = progressRatio * 0.85;
-      }
-
-      // Check character secret lore states on their respective sub-pages
-      const isPersephonePage = !document.getElementById('page-persephone')?.classList.contains('hidden');
-      const isLuciusPage = !document.getElementById('page-lucius')?.classList.contains('hidden');
-
-      let loreDarkness = 0;
-      if (isPersephonePage && loreData.persephone.revealed) {
-        loreDarkness = 0.7;
-      } else if (isLuciusPage && loreData.lucius.revealed) {
-        loreDarkness = 0.7;
-      }
-
-      // Apply ambient darkness level smoothly
-      const finalOpacity = Math.min(1, Math.max(comicDarkness, loreDarkness));
-      glow.style.opacity = finalOpacity.toFixed(2);
-    }
-
-    function renderComicPage(direction = 'next') {
-      const card = document.getElementById('flipCard');
-      const img = document.getElementById('comicPageImg');
-      const counter = document.getElementById('pageCounter');
-
-      if (!card || !img) return;
-
-      // Reset any temporary drag transforms
-      card.style.transform = '';
-
-      const flipClass = direction === 'next' ? 'flipping-next' : 'flipping-prev';
-      card.classList.add(flipClass);
-
-      setTimeout(() => {
-        const pageNum = currentComicIndex + 1;
-        const src = comicPages[currentComicIndex];
-        img.src = src;
-        img.onerror = () => {
-          img.onerror = null;
-          img.src = `https://placehold.co/600x800/130C22/A6F9B8.png?text=Comic+Preview+Page+${pageNum}`;
-        };
-
-        if (counter) {
-          counter.innerText = `PAGE ${pageNum} OF ${comicPages.length}`;
+    // =========================================================================
+    // 2. SECRET LORE & CHARACTER MANAGER
+    // =========================================================================
+    const LoreManager = {
+      data: {
+        persephone: {
+          revealed: false,
+          originalBio1: "A 17-year-old fearless paranormal investigator who explores an abandoned mall. She is a logical person that knows how to piece things together. However, her flaws make it so she tends to obsess over finding clean answers, convinced that if she works hard enough, she will get what she’s looking for one way or another.",
+          originalBio2: "In spite of all this, she has an overall lighthearted personality. Her strengths lie in her wits and quick-thinking that allow her to adapt to changes and think of solutions under pressure.",
+          secretText: "[to be added]"
+        },
+        lucius: {
+          revealed: false,
+          originalBio1: "The trapped spirit of a 10-year-old child who went missing. He remains naive and playful as he was at the time of his death. He is currently confined to the space of an empty abandoned mall, growing more bitter and volatile as he tries and fails to make a friend to accompany him.",
+          originalBio2: "Now, when the opportunity presents itself, he tries to keep anyone who walks by the mall trapped within so he won’t feel as alone. If they resist, he keeps them in control under the threat of his attacks and an environment he can bend at his will.",
+          secretText: "[to be added]"
         }
+      },
 
-        card.classList.remove('flipping-next', 'flipping-prev');
-        
-        // Update ambient darkness as pages advance
-        updateAmbientAtmosphere();
-      }, 300);
-    }
+      toggle(character) {
+        const item = this.data[character];
+        if (!item) return;
 
-    function nextPage() {
-      if (currentComicIndex < comicPages.length - 1) {
-        currentComicIndex++;
-      } else {
-        currentComicIndex = 0; // Wrap around to page 1
-      }
-      renderComicPage('next');
-    }
+        const p1 = document.getElementById(`${character}-bio-p1`);
+        const p2 = document.getElementById(`${character}-bio-p2`);
 
-    function prevPage() {
-      if (currentComicIndex > 0) {
-        currentComicIndex--;
-      } else {
-        currentComicIndex = comicPages.length - 1; // Wrap around to last page
-      }
-      renderComicPage('prev');
-    }
+        item.revealed = !item.revealed;
 
-    let isDragging = false;
-    let startX = 0;
-    let currentDeltaX = 0;
-
-    function initDragToFlip() {
-      const stage = document.getElementById('comicFlipStage');
-      const card = document.getElementById('flipCard');
-      if (!stage || !card) return;
-
-      // Disable native browser image drag behavior
-      stage.addEventListener('dragstart', (e) => e.preventDefault());
-
-      const handleStart = (e) => {
-        if (e.target.closest('button')) return; // Ignore clicks on overlay buttons
-
-        isDragging = true;
-        startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        currentDeltaX = 0;
-        stage.classList.remove('cursor-grab');
-        stage.classList.add('cursor-grabbing');
-        card.style.transition = 'none';
-      };
-
-      const handleMove = (e) => {
-        if (!isDragging) return;
-        const currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        currentDeltaX = currentX - startX;
-
-        // Live 3D rotation feedback while dragging
-        const stageWidth = stage.clientWidth || 600;
-        const rotation = Math.max(-35, Math.min(35, (currentDeltaX / stageWidth) * 60));
-        card.style.transform = `rotateY(${rotation}deg) translateX(${currentDeltaX * 0.2}px)`;
-      };
-
-      const handleEnd = () => {
-        if (!isDragging) return;
-        isDragging = false;
-        stage.classList.remove('cursor-grabbing');
-        stage.classList.add('cursor-grab');
-
-        card.style.transition = ''; // Restore smooth CSS animations
-
-        // Trigger bi-directional flip if threshold met (40px)
-        if (currentDeltaX < -40) {
-          nextPage();
-        } else if (currentDeltaX > 40) {
-          prevPage();
+        if (item.revealed) {
+          if (p1) p1.innerText = item.secretText;
+          if (p2) p2.innerText = "";
         } else {
-          // Snap back if threshold not met
-          card.style.transform = '';
+          if (p1) p1.innerText = item.originalBio1;
+          if (p2) p2.innerText = item.originalBio2;
         }
-        currentDeltaX = 0;
-      };
 
-      stage.addEventListener('mousedown', handleStart);
-      window.addEventListener('mousemove', handleMove);
-      window.addEventListener('mouseup', handleEnd);
+        if (character === 'lucius') {
+          this.updateLuciusUI();
+        }
 
-      stage.addEventListener('touchstart', handleStart, { passive: true });
-      window.addEventListener('touchmove', handleMove, { passive: true });
-      window.addEventListener('touchend', handleEnd);
-    }
+        AtmosphereController.update();
 
+        const box = document.getElementById(`${character}-text-box`);
+        if (box && typeof anime !== 'undefined') {
+          anime({
+            targets: box,
+            opacity: [0.3, 1],
+            duration: 500,
+            easing: 'easeOutQuad'
+          });
+        }
+      },
+
+      updateLuciusUI() {
+        const isRevealed = this.data.lucius.revealed;
+        const backText = document.getElementById('lucius-back-text');
+        const imgCard = document.getElementById('lucius-img-card');
+        const textBox = document.getElementById('lucius-text-box');
+
+        if (backText) {
+          backText.innerText = isRevealed ? "don't leave" : "BACK TO COMIC";
+        }
+
+        if (imgCard && textBox) {
+          if (isRevealed) {
+            imgCard.classList.add('lucius-glitched');
+            textBox.classList.add('lucius-glitched');
+          } else {
+            imgCard.classList.remove('lucius-glitched');
+            textBox.classList.remove('lucius-glitched');
+          }
+        }
+      }
+    };
+
+    // =========================================================================
+    // 3. ATMOSPHERE & LIGHTING CONTROLLER
+    // =========================================================================
+    const AtmosphereController = {
+      update() {
+        const glow = document.getElementById('hauntedGlow');
+        if (!glow) return;
+
+        const isHomePage = !document.getElementById('page-home')?.classList.contains('hidden');
+        let comicDarkness = 0;
+        if (isHomePage) {
+          const progressRatio = ComicReader.currentIndex / (ComicReader.pages.length - 1);
+          comicDarkness = progressRatio * 0.85;
+        }
+
+        const isPersephonePage = !document.getElementById('page-persephone')?.classList.contains('hidden');
+        const isLuciusPage = !document.getElementById('page-lucius')?.classList.contains('hidden');
+
+        let loreDarkness = 0;
+        if (isPersephonePage && LoreManager.data.persephone.revealed) {
+          loreDarkness = 0.7;
+        } else if (isLuciusPage && LoreManager.data.lucius.revealed) {
+          loreDarkness = 0.7;
+        }
+
+        const finalOpacity = Math.min(1, Math.max(comicDarkness, loreDarkness));
+        glow.style.opacity = finalOpacity.toFixed(2);
+      }
+    };
+
+    // =========================================================================
+    // 4. NAVIGATION & LIGHTBOX MODULES
+    // =========================================================================
     function switchView(viewId) {
       const sections = document.querySelectorAll('.view-section');
       sections.forEach(sec => sec.classList.add('hidden'));
@@ -746,70 +820,11 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      // Sync ambient atmosphere & Lucius lore state UI
-      updateAmbientAtmosphere();
-      updateLuciusLoreUI();
+      AtmosphereController.update();
+      LoreManager.updateLuciusUI();
 
       if (typeof lucide !== 'undefined') {
         lucide.createIcons();
-      }
-    }
-
-    function updateLuciusLoreUI() {
-      const isRevealed = loreData.lucius.revealed;
-      const backText = document.getElementById('lucius-back-text');
-      const imgCard = document.getElementById('lucius-img-card');
-      const textBox = document.getElementById('lucius-text-box');
-
-      if (backText) {
-        backText.innerText = isRevealed ? "don't leave" : "BACK TO COMIC";
-      }
-
-      if (imgCard && textBox) {
-        if (isRevealed) {
-          imgCard.classList.add('lucius-glitched');
-          textBox.classList.add('lucius-glitched');
-        } else {
-          imgCard.classList.remove('lucius-glitched');
-          textBox.classList.remove('lucius-glitched');
-        }
-      }
-    }
-
-    function toggleLore(character) {
-      const data = loreData[character];
-      if (!data) return;
-
-      const p1 = document.getElementById(`${character}-bio-p1`);
-      const p2 = document.getElementById(`${character}-bio-p2`);
-
-      data.revealed = !data.revealed;
-
-      if (data.revealed) {
-        if (p1) p1.innerText = data.secretText;
-        if (p2) p2.innerText = "";
-      } else {
-        if (p1) p1.innerText = data.originalBio1;
-        if (p2) p2.innerText = data.originalBio2;
-      }
-
-      // Sync Lucius profile lore UI state
-      if (character === 'lucius') {
-        updateLuciusLoreUI();
-      }
-
-      // Sync ambient atmosphere
-      updateAmbientAtmosphere();
-
-      // Anime.js fade-in pulse effect on text box
-      const box = document.getElementById(`${character}-text-box`);
-      if (box && typeof anime !== 'undefined') {
-        anime({
-          targets: box,
-          opacity: [0.3, 1],
-          duration: 600,
-          easing: 'easeOutQuad'
-        });
       }
     }
 
@@ -826,7 +841,7 @@
         img.src = imgSrc;
         img.onerror = () => {
           img.onerror = null;
-          img.src = 'https://placehold.co/600x400/130C22/A6F9B8.png?text=Artwork+Preview';
+          img.src = 'https://placehold.co/600x800/130C22/A6F9B8.png?text=Artwork+Preview';
         };
       }
       if (titleEl) titleEl.innerText = title;
@@ -841,8 +856,15 @@
       if (lb) lb.classList.add('hidden');
     }
 
+    // Legacy wrappers for HTML event bindings
+    function nextPage() { ComicReader.next(); }
+    function prevPage() { ComicReader.prev(); }
+    function toggleLore(character) { LoreManager.toggle(character); }
+
+    // Initializer
     window.onload = function() {
-      initDragToFlip();
+      ComicReader.preloadAllPages(); // Preloads images in background immediately
+      ComicReader.initDrag();
       if (typeof lucide !== 'undefined') {
         lucide.createIcons();
       }
