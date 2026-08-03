@@ -79,10 +79,30 @@
       width: 100vw;
       height: 100vh;
       pointer-events: none;
-      z-index: 10;
-      background: radial-gradient(circle at 50% 50%, rgba(166, 249, 184, 0.18) 0%, rgba(8, 4, 16, 0.85) 75%);
+      z-index: 1;
+      background: radial-gradient(circle at 50% 50%, rgba(166, 249, 184, 0.08) 0%, rgba(19, 12, 34, 0.88) 55%, rgba(4, 2, 8, 0.98) 85%);
       opacity: 0;
-      transition: opacity 0.8s ease;
+      transition: opacity 0.6s ease-out;
+    }
+
+    /* Cold Frost Atmosphere Overlay with Cracked Ice Texture */
+    #frostGlow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 2;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.10) 0%, rgba(15, 23, 42, 0.85) 65%, rgba(2, 6, 23, 0.98) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'%3E%3Cg stroke='%23a5f3fc' stroke-opacity='0.25' stroke-width='1.0' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M250,250 L180,120 L120,90 L40,30 M180,120 L210,40 M180,120 L100,160 L20,180 M250,250 L340,160 L410,130 L480,80 M340,160 L320,60 M340,160 L420,210 L490,230 M250,250 L280,380 L350,440 L430,480 M280,380 L200,430 M280,380 L360,330 L470,360 M250,250 L130,310 L70,390 L10,450 M130,310 L160,420 M130,310 L50,270 L10,260'/%3E%3Cpath d='M120,90 L140,40 M100,160 L70,110 M410,130 L430,70 M420,210 L460,170 M350,440 L380,490 M360,330 L410,310 M70,390 L40,430 M50,270 L30,320' stroke-opacity='0.15' stroke-width='0.6'/%3E%3Cpath d='M250,250 M180,120 L240,110 M340,160 L310,210 M280,380 L230,350 M130,310 L170,260' stroke-opacity='0.18' stroke-width='0.7'/%3E%3C/g%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700' viewBox='0 0 700 700'%3E%3Cg stroke='%23ffffff' stroke-opacity='0.20' stroke-width='1.2' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M0,350 L150,320 L220,200 L310,180 L400,90 L520,60 L700,0 M150,320 L110,480 L50,560 L0,620 M110,480 L210,530 L320,650 M220,200 L300,260 L450,280 L550,380 L630,420 L700,450 M450,280 L490,170 L580,120 M550,380 L480,510 L520,620 M400,90 L460,30 M310,180 L260,80 L280,0'/%3E%3Cpath d='M150,320 L80,240 M220,200 L180,120 M450,280 L380,350 M550,380 L620,320 M480,510 L410,540 M490,170 L550,200' stroke-opacity='0.12' stroke-width='0.7'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover, 480px 480px, 680px 680px;
+      background-position: center, center, center;
+      box-shadow: inset 0 0 160px rgba(147, 197, 253, 0.30);
+      opacity: 0;
+      transition: opacity 0.8s ease-out;
     }
 
     /* Frost Glass styling */
@@ -179,6 +199,8 @@
 
   <!-- Ambient Glow Overlay -->
   <div id="hauntedGlow"></div>
+  <!-- Cold Frost Atmosphere Overlay -->
+  <div id="frostGlow"></div>
 
   <header class="sticky top-0 z-50 bg-brand-darkPurple/90 backdrop-blur border-b-4 border-brand-purple px-4 lg:px-8 py-3">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
@@ -224,7 +246,7 @@
           Unfading Memories
         </h1>
 
-        <div class="max-w-3xl mx-auto bg-brand-purple/40 border-2 border-brand-desatBlue/40 p-6 sm:p-8 rounded-lg text-brand-lightYellow font-sans text-base sm:text-lg leading-relaxed shadow-lg">
+        <div class="max-w-3xl mx-auto bg-[#332352] border-2 border-brand-desatBlue/40 p-6 sm:p-8 rounded-lg text-brand-lightYellow font-sans text-base sm:text-lg leading-relaxed shadow-lg">
           Persephone, a fearless paranormal investigator, is sent to a haunted mall to get rid of a spirit. However, she also has a personal mission: to find answers for what happened to her missing brother, and a keepsake to remember him by before she leaves for college. Inside the mall, she finds Lucius, a volatile, child-like ghost who tries to keep her trapped so he can forcefully make a friend. Things quickly escalate as Lucius's anger over Persephone's attempted escape grows, forcing her to make a difficult choice between clinging to her past or letting go.
         </div>
       </div>
@@ -237,7 +259,7 @@
           <i data-lucide="arrow-down" class="w-4 h-4 animate-bounce"></i>
         </div>
 
-        <div class="bg-brand-purple/30 border-4 border-brand-desatBlue p-4 sm:p-6 rounded-lg space-y-4 shadow-2xl">
+        <div class="bg-[#2B1B47] border-4 border-brand-desatBlue p-4 sm:p-6 rounded-lg space-y-4 shadow-2xl">
           
           <!-- Reader Header Bar -->
           <div class="flex items-center justify-between font-tech text-xs text-brand-orange border-b border-brand-desatBlue/30 pb-3 flex-wrap gap-2">
@@ -755,13 +777,24 @@
     const AtmosphereController = {
       update() {
         const glow = document.getElementById('hauntedGlow');
+        const frost = document.getElementById('frostGlow');
         if (!glow) return;
 
         const isHomePage = !document.getElementById('page-home')?.classList.contains('hidden');
         let comicDarkness = 0;
+        let frostOpacity = 0;
+
         if (isHomePage) {
-          const progressRatio = ComicReader.currentIndex / (ComicReader.pages.length - 1);
-          comicDarkness = progressRatio * 0.85;
+          // Accelerated darkening curve: hits significantly harder across pages 3, 4, and 5
+          const darknessLevels = [0.10, 0.38, 0.72, 0.88, 1.00];
+          comicDarkness = darknessLevels[ComicReader.currentIndex] ?? 0;
+
+          // Gradual icy blue frost effect for the last 2 comic pages (Page 4 & 5) on the main page only (25% subtler)
+          if (ComicReader.currentIndex === 3) {
+            frostOpacity = 0.38; // Reduced by ~25% (down from 0.50)
+          } else if (ComicReader.currentIndex === 4) {
+            frostOpacity = 0.75; // Reduced by 25% (down from 1.00)
+          }
         }
 
         const isPersephonePage = !document.getElementById('page-persephone')?.classList.contains('hidden');
@@ -769,13 +802,17 @@
 
         let loreDarkness = 0;
         if (isPersephonePage && LoreManager.data.persephone.revealed) {
-          loreDarkness = 0.7;
+          loreDarkness = 0.75;
         } else if (isLuciusPage && LoreManager.data.lucius.revealed) {
-          loreDarkness = 0.7;
+          loreDarkness = 0.85;
         }
 
         const finalOpacity = Math.min(1, Math.max(comicDarkness, loreDarkness));
         glow.style.opacity = finalOpacity.toFixed(2);
+
+        if (frost) {
+          frost.style.opacity = frostOpacity.toFixed(2);
+        }
       }
     };
 
