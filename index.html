@@ -85,7 +85,7 @@
       transition: opacity 0.6s ease-out;
     }
 
-    /* Cold Frost Atmosphere Overlay with Cracked Ice Texture */
+    /* Cold Frost Atmosphere Overlay with Soft Blurred Edge Snowflake Formations */
     #frostGlow {
       position: fixed;
       top: 0;
@@ -95,11 +95,13 @@
       pointer-events: none;
       z-index: 2;
       background-image: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='1000' viewBox='0 0 1000 1000' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='sfBlur'%3E%3CfeGaussianBlur stdDeviation='2.8'/%3E%3C/filter%3E%3Cg id='sf' stroke='%23e0f2fe' stroke-width='2' fill='none' stroke-linecap='round'%3E%3Cline x1='0' y1='-70' x2='0' y2='70'/%3E%3Cline x1='-60.62' y1='-35' x2='60.62' y2='35'/%3E%3Cline x1='-60.62' y1='35' x2='60.62' y2='-35'/%3E%3Cpath d='M-12,-45 L0,-58 L12,-45 M-12,45 L0,58 L12,45'/%3E%3Cpath d='M-45,-22 L-52,-8 L-30,-30 M45,22 L52,8 L30,30'/%3E%3Cpath d='M-45,22 L-52,8 L-30,-30 M45,-22 L52,-8 L30,-30'/%3E%3Cpolygon points='0,-20 17.32,-10 17.32,10 0,20 -17.32,10 -17.32,-10'/%3E%3C/g%3E%3Cg id='sfS' stroke='%23bae6fd' stroke-width='1.5' fill='none' stroke-linecap='round'%3E%3Cline x1='0' y1='-40' x2='0' y2='40'/%3E%3Cline x1='-34.64' y1='-20' x2='34.64' y2='20'/%3E%3Cline x1='-34.64' y1='20' x2='34.64' y2='-20'/%3E%3Cpolygon points='0,-12 10.39,-6 10.39,6 0,12 -10.39,6 -10.39,-6'/%3E%3C/g%3E%3C/defs%3E%3Cg filter='url(%23sfBlur)' stroke-opacity='0.16'%3E%3Cuse href='%23sf' x='70' y='70'/%3E%3Cuse href='%23sfS' x='180' y='80'/%3E%3Cuse href='%23sfS' x='80' y='190'/%3E%3Cuse href='%23sf' x='930' y='70'/%3E%3Cuse href='%23sfS' x='820' y='80'/%3E%3Cuse href='%23sfS' x='920' y='190'/%3E%3Cuse href='%23sf' x='70' y='930'/%3E%3Cuse href='%23sfS' x='180' y='920'/%3E%3Cuse href='%23sfS' x='80' y='810'/%3E%3Cuse href='%23sf' x='930' y='930'/%3E%3Cuse href='%23sfS' x='820' y='920'/%3E%3Cuse href='%23sfS' x='920' y='810'/%3E%3Cuse href='%23sfS' x='500' y='40'/%3E%3Cuse href='%23sfS' x='500' y='960'/%3E%3Cuse href='%23sfS' x='40' y='500'/%3E%3Cuse href='%23sfS' x='960' y='500'/%3E%3C/g%3E%3C/svg%3E"),
         radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.10) 0%, rgba(15, 23, 42, 0.85) 65%, rgba(2, 6, 23, 0.98) 100%),
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'%3E%3Cg stroke='%23a5f3fc' stroke-opacity='0.25' stroke-width='1.0' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M250,250 L180,120 L120,90 L40,30 M180,120 L210,40 M180,120 L100,160 L20,180 M250,250 L340,160 L410,130 L480,80 M340,160 L320,60 M340,160 L420,210 L490,230 M250,250 L280,380 L350,440 L430,480 M280,380 L200,430 M280,380 L360,330 L470,360 M250,250 L130,310 L70,390 L10,450 M130,310 L160,420 M130,310 L50,270 L10,260'/%3E%3Cpath d='M120,90 L140,40 M100,160 L70,110 M410,130 L430,70 M420,210 L460,170 M350,440 L380,490 M360,330 L410,310 M70,390 L40,430 M50,270 L30,320' stroke-opacity='0.15' stroke-width='0.6'/%3E%3Cpath d='M250,250 M180,120 L240,110 M340,160 L310,210 M280,380 L230,350 M130,310 L170,260' stroke-opacity='0.18' stroke-width='0.7'/%3E%3C/g%3E%3C/svg%3E"),
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700' viewBox='0 0 700 700'%3E%3Cg stroke='%23ffffff' stroke-opacity='0.20' stroke-width='1.2' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M0,350 L150,320 L220,200 L310,180 L400,90 L520,60 L700,0 M150,320 L110,480 L50,560 L0,620 M110,480 L210,530 L320,650 M220,200 L300,260 L450,280 L550,380 L630,420 L700,450 M450,280 L490,170 L580,120 M550,380 L480,510 L520,620 M400,90 L460,30 M310,180 L260,80 L280,0'/%3E%3Cpath d='M150,320 L80,240 M220,200 L180,120 M450,280 L380,350 M550,380 L620,320 M480,510 L410,540 M490,170 L550,200' stroke-opacity='0.12' stroke-width='0.7'/%3E%3C/g%3E%3C/svg%3E");
-      background-size: cover, 480px 480px, 680px 680px;
-      background-position: center, center, center;
+      background-size: 100% 100%, cover, 480px 480px, 680px 680px;
+      background-position: center, center, center, center;
+      background-repeat: no-repeat, no-repeat, repeat, repeat;
       box-shadow: inset 0 0 160px rgba(147, 197, 253, 0.30);
       opacity: 0;
       transition: opacity 0.8s ease-out;
